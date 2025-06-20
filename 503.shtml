@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>503 - Site Under Maintenance</title>
+  <style>
+    /* Reset & base */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; font-family: 'Segoe UI', Tahoma, sans-serif; color:#fff; }
+
+    /* Animated background gradient */
+    body {
+      background: linear-gradient(-45deg, #1a2a6c, #b21f1f, #fdbb2d, #0f2027);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    @keyframes gradientBG {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Container */
+    .maintenance-container {
+      max-width: 600px;
+      background: rgba(0,0,0,0.3);
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Error code */
+    .error-code {
+      font-size: 5rem;
+      font-weight: bold;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:1; }
+      50% { transform: scale(1.1); opacity:0.8; }
+    }
+
+    /* Message */
+    .message {
+      font-size: 1.5rem;
+      margin: 20px 0 30px;
+      line-height: 1.4;
+    }
+
+    /* Rotating gear */
+    .gear {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 30px;
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Button */
+    .home-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #1a2a6c;
+      background: #fdbb2d;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    .home-btn:hover {
+      background: #b21f1f;
+      color: #fff;
+    }
+
+    /* Footer small text */
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="maintenance-container">
+    <!-- Rotating Gear SVG -->
+    <svg class="gear" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#fff" d="M94.6 56.3v-12.6l-11.5-2c-1.6-4.9-3.8-9.6-6.6-13.8l6.8-9.1-8.9-8.9-9.1 6.8c-4.2-2.8-8.9-5-13.8-6.6l-2-11.5h-12.6l-2 11.5c-4.9 1.6-9.6 3.8-13.8 6.6l-9.1-6.8-8.9 8.9 6.8 9.1c-2.8 4.2-5 8.9-6.6 13.8l-11.5 2v12.6l11.5 2c1.6 4.9 3.8 9.6 6.6 13.8l-6.8 9.1 8.9 8.9 9.1-6.8c4.2 2.8 8.9 5 13.8 6.6l2 11.5h12.6l2-11.5c4.9-1.6 9.6-3.8 13.8-6.6l9.1 6.8 8.9-8.9-6.8-9.1c2.8-4.2 5-8.9 6.6-13.8l11.5-2zM50 65a15 15 0 1 1 0-30 15 15 0 0 1 0 30z"/>
+    </svg>
+
+    <!-- Error Code -->
+    <div class="error-code">503</div>
+
+    <!-- Maintenance Message -->
+    <div class="message">
+      Site Under Maintenance<br/>
+      We’re improving things behind the scenes. Please check back soon!
+    </div>
+
+    <!-- Optional Home Button -->
+    <a href="/" class="home-btn">Go to Homepage</a>
+
+    <div class="footer">
+      &mdash; The Benefit Market Trade Team
+    </div>
+  </div>
+</body>
+</html>

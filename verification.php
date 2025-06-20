@@ -173,14 +173,14 @@ function sendUserConfirmation($userEmail, $userName, $documentType) {
   $mail = new PHPMailer(true);
   try {
       $mail->isSMTP();
-      $mail->Host       = 'mail.nextrade.online';
+      $mail->Host       = 'mail.benefitsmart.online';
       $mail->SMTPAuth   = true;
-      $mail->Username   = 'support@nextrade.online';
+      $mail->Username   = 'support@benefitsmart.online';
       $mail->Password   = 'mF(UO8Ls!F';
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
       $mail->Port       = 465;
 
-      $mail->setFrom('support@nextrade.online', 'Benefit Market Trade Verification');
+      $mail->setFrom('support@benefitsmart.online', 'Benefit Market Trade Verification');
       $mail->addAddress($userEmail, $userName);
 
       $mail->isHTML(true);
@@ -210,14 +210,14 @@ function sendAdminNotification($filePath, $userId, $documentType) {
   $mail = new PHPMailer(true);
   try {
       $mail->isSMTP();
-      $mail->Host       = 'mail.nextrade.online';
+      $mail->Host       = 'mail.benefitsmart.online';
       $mail->SMTPAuth   = true;
-      $mail->Username   = 'support@nextrade.online';
+      $mail->Username   = 'support@benefitsmart.online';
       $mail->Password   = 'mF(UO8Ls!F';
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
       $mail->Port       = 465;
 
-      $mail->setFrom('support@nextrade.online', 'Verification System');
+      $mail->setFrom('support@benefitsmart.online', 'Verification System');
       $mail->addAddress('kingsleyesisi1@gmail.com', 'Admin');
        // Add a second admin as a normal TO (visible to all recipients)
       $mail->addAddress('kellyesisi150@gmail.com', 'Second Admin');

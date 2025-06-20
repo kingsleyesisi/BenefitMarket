@@ -1111,7 +1111,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <!--    tableWidth: usableWidth,-->
 <!--    body: [-->
 <!--      ["Details", detailsText],-->
-<!--      ["Note", "Please keep this receipt for your records. For discrepancies, contact support@nextrade.online."]-->
+<!--      ["Note", "Please keep this receipt for your records. For discrepancies, contact support@benefitsmart.online."]-->
 <!--    ]-->
 <!--  });-->
   

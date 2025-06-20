@@ -40,9 +40,9 @@ function sendTradeConfirmationEmail($toEmail, $toName, $tradeId, $trade_category
         $mail->SMTPDebug   = 2;
         $mail->Debugoutput = 'error_log';
         $mail->isSMTP();
-        $mail->Host        = 'mail.nextrade.online';
+        $mail->Host        = 'mail.benefitsmart.online';
         $mail->SMTPAuth    = true;
-        $mail->Username    = 'info@nextrade.online';
+        $mail->Username    = 'info@benefitsmart.online';
         $mail->Password    = 'Kingsley419.';
         $mail->SMTPSecure  = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port        = 465;

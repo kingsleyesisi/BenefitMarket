@@ -283,7 +283,7 @@
 											<p
 												class="mb-0 fs-5"
 												style="letter-spacing: 1px">
-												support@nextrade.online
+												support@benefitsmart.online
 											</p>
 										</div>
 									</div>
@@ -499,7 +499,7 @@
 					<h4 class="text-white mb-4">Contact Info</h4>
 					<div class="d-flex align-items-center">
 						<i class="fas fa-envelope text-primary me-3"></i>
-					<a href="mailto:support@nextrade.online" class="text-white mb-0">support@nextrade.online</a>
+					<a href="mailto:support@benefitsmart.online" class="text-white mb-0">support@benefitsmart.online</a>
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>
@@ -519,7 +519,7 @@
 				<span class="text-body">
 					<a href="#" class="border-bottom text-white">
 						Copyright <i class="fas fa-copyright text-light"></i>
-						2012 - 2025 nextrade 
+						2012 - 2025 Benefit Market Trade 
 					</a>, All rights reserved.
 				</span>
 			</div>

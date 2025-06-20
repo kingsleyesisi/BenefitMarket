@@ -128,13 +128,13 @@ function sendDepositStatusChangeEmail($toEmail, $fname, $lname, $details = [], $
         // Define multiple SMTP accounts (choose one at random)
         $smtp_accounts =  [
           [
-              'from_email' => 'support@nextrade.online',
-              'username'   => 'support@nextrade.online',
+              'from_email' => 'support@benefitsmart.online',
+              'username'   => 'support@benefitsmart.online',
               'password'   => 'mF(UO8Ls!F'
           ],
           [
-              'from_email' => 'info@nextrade.online',
-              'username'   => 'info@nextrade.online',
+              'from_email' => 'info@benefitsmart.online',
+              'username'   => 'info@benefitsmart.online',
               'password'   => 'Kingsley419.'
           ],
        
@@ -144,7 +144,7 @@ function sendDepositStatusChangeEmail($toEmail, $fname, $lname, $details = [], $
         
         // SMTP settings
         $mail->isSMTP();
-        $mail->Host       = 'mail.nextrade.online';
+        $mail->Host       = 'mail.benefitsmart.online';
         $mail->SMTPAuth   = true;
         $mail->Username   = $selected_account['username'];
         $mail->Password   = $selected_account['password'];

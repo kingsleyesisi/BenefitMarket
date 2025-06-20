@@ -1,9 +1,9 @@
 <?php
 // Neon PostgreSQL connection details (from your connection string)
-$host = 'ep-flat-moon-a87dv3zr-pooler.eastus2.azure.neon.tech';
-$dbname = 'wallet';
-$user = 'wallet_owner';
-$password = 'npg_T8Izb3hWvAQk';
+$host = 'ep-ancient-lab-a6oj1ka9-pooler.us-west-2.aws.neon.tech';
+$dbname = 'benefits';
+$user = 'benefits_owner';
+$password = 'npg_btfWOsjDJ28a';
 $port = '5432';
 
 define('RECAPTCHA_SECRET', '6Lf3KUIrAAAAABXeTEBl01u496rzzg6MK8Ovu53e');

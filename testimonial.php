@@ -389,7 +389,7 @@
 					<h4 class="text-white mb-4">Contact Info</h4>
 					<div class="d-flex align-items-center">
 						<i class="fas fa-envelope text-primary me-3"></i>
-					<a href="mailto:support@nextrade.online" class="text-white mb-0">support@nextrade.online</a>
+					<a href="mailto:support@benefitsmart.online" class="text-white mb-0">support@benefitsmart.online</a>
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>

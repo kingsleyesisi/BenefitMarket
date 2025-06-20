@@ -1079,7 +1079,7 @@
 										If you have problems logging in, or if
 										you receive an error message during
 										registration or making deposit or withdrawing, please contact
-										support@nextrade.online or use the
+										support@benefitsmart.online or use the
 										Live Chat feature on this website.
 									</div>
 								</div>
@@ -1187,9 +1187,9 @@
 						</div>
 						<div class="testimonial-text">
 							<p class="mb-0">
-								"Since joining nextrade Pro, my Forex portfolio
+								"Since joining Benefit Smart, my Forex portfolio
 								has soared by 30% in just two weeks. The
-								advanced charting tools and risk‑management
+								advanced charting tools and risk- management
 								alerts are game‑changers!"
 							</p>
 						</div>
@@ -1360,7 +1360,7 @@
 					<h4 class="text-white mb-4">Contact Info</h4>
 					<div class="d-flex align-items-center">
 						<i class="fas fa-envelope text-primary me-3"></i>
-					<a href="mailto:support@nextrade.online" class="text-white mb-0">support@nextrade.online</a>
+					<a href="mailto:support@benefitsmart.online" class="text-white mb-0">support@benefitsmart.online</a>
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>

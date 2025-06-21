@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Send Professional Email</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          keyframes: {
+            'button-click': {
+              '0%': { transform: 'scale(1)', opacity: 1 },
+              '50%': { transform: 'scale(1.1)', opacity: 0.7 },
+              '100%': { transform: 'scale(1)', opacity: 1 }
+            },
+          },
+          animation: {
+            'button-click': 'button-click 0.5s ease-in-out',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-blue-600">Send Email</h1>
+      <nav>
+        <a href="/" class="text-blue-600 hover:underline">Home</a>
+        <a href="/history" class="text-blue-600 hover:underline ml-4">History</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Form Section -->
+  <main class="flex-grow max-w-4xl mx-auto px-6 py-16 bg-white shadow rounded-lg mt-6 mb-6 transition-all transform hover:scale-105">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 text-center">Compose Your Email </h2>
+    <form id="emailForm" class="space-y-5">
+      <div>
+        <label for="recipient_name" class="block text-sm font-medium text-gray-700">Recipient Name</label>
+        <input id="recipient_name" name="recipient_name" type="text"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 transition-all duration-300"
+          placeholder="e.g., Jane Doe" required>
+      </div>
+
+      <div>
+        <label for="recipient_email" class="block text-sm font-medium text-gray-700">Recipient Email</label>
+        <input id="recipient_email" name="recipient_email" type="email"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 transition-all duration-300"
+          placeholder="e.g., jane.doe@example.com" required>
+      </div>
+
+      <div>
+        <label for="heading" class="block text-sm font-medium text-gray-700"> Message Heading </label>
+        <input id="heading" name="heading" type="text"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 transition-all duration-300"
+          placeholder="e.g Account funding required" required>
+      <div>
+        <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+        <input id="subject" name="subject" type="text"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 transition-all duration-300"
+          placeholder="Email subject" required>
+      </div>
+
+      <div>
+        <label for="body" class="block text-sm font-medium text-gray-700">Body</label>
+        <textarea id="body" name="body" rows="6"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 transition-all duration-300"
+          placeholder="Write your professional message here..." required></textarea>
+      </div>
+
+      <div>
+        <button type="submit"
+          class="w-full bg-blue-600 text-white py-3 px-5 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 focus:ring focus:ring-blue-200"
+          id="sendBtn">
+          Send Email
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t">
+    <div class="max-w-4xl mx-auto px-6 py-4 text-sm text-gray-600 text-center">
+      &copy; 2012 - 2025 Benefits Markets Trate LLC. All rights reserved.
+    </div>
+
+    <div class="bg-blue-100 py-2 rounded-lg shadow-md">
+      <marquee behavior="scroll" direction="left" class="text-blue-600 font-medium text-lg">
+      <span class="font-bold">Created by The King's World</span>
+      </marquee>
+    </div>
+  </footer>
+
+  <!-- Loading Animation -->
+  <div id="loadingSpinner" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 hidden">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
+  </div>
+
+  <script>
+    document.getElementById('emailForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      // Show loading spinner
+      document.getElementById('loadingSpinner').classList.remove('hidden');
+
+      // Collect form data
+      const formData = {
+        recipient_name: document.getElementById('recipient_name').value,
+        recipient_email: document.getElementById('recipient_email').value,
+        heading: document.getElementById('heading').value,
+        subject: document.getElementById('subject').value,
+        body: document.getElementById('body').value
+      };
+
+      try {
+        // Send POST request to the Flask app
+        const response = await fetch('/send-mail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        // Handle response
+        const result = await response.text();
+        alert(result);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to send email.');
+      } finally {
+        // Hide loading spinner
+        document.getElementById('loadingSpinner').classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+
+</html>

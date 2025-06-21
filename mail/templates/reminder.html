@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexTrade - Network Fee Reminder</title>
+  <style>
+    /* General resets */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    table {
+      border-spacing: 0;
+      width: 100%;
+    }
+    td {
+      padding: 0;
+    }
+    img {
+      border: 0;
+    }
+    .span {
+      display: block;
+      font-size: 14px;
+      color: #e01b24;
+      margin-top: 20px;
+    }
+    /* Container */
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    /* Header */
+    .header {
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #000;
+    }
+    .header span {
+      display: block;
+      font-size: 14px;
+      color: #e01b24;
+    }
+    /* Payment banner */
+    .payment-banner {
+      background-color: #0b3559;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .payment-banner h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: normal;
+    }
+    /* Details */
+    .details {
+      padding: 20px;
+    }
+    .details h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+    .details p, .details ul, .details ol {
+      margin: 10px 0;
+      line-height: 1.5;
+      font-size: 14px;
+      color: #555;
+      line-height: 24px;
+    }
+    .details a {
+      color: #0b3559;
+      text-decoration: none;
+    }
+    .details a:hover {
+      text-decoration: underline;
+    }
+    /* Footer */
+    .footer {
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+    }
+    /* Footer Info */
+    .footer-info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+    }
+    .footer-info a {
+      color: #0b3559;
+      text-decoration: none;
+    }
+    .footer-info a:hover {
+      text-decoration: underline;
+    }
+    /* Button */
+    .btn {
+      display: inline-block;
+      margin: 20px 0;
+      padding: 12px 24px;
+      background-color: #0b3559;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table class="email-container">
+          <!-- Header -->
+          <tr>
+            <td class="header">
+              <h1>NexTrade</h1>
+              <span>Trade Smarter, Not Harder</span>
+            </td>
+          </tr>
+          <!-- Payment Banner -->
+          <tr>
+            <td class="payment-banner">
+              <h2>Reminder – USD 8,000 Withdrawal Network Fee</h2>
+            </td>
+          </tr>
+          <!-- Details -->
+          <tr>
+            <td class="details">
+              <p>Dear <strong>{{ name }}</strong>,</p>
+              <p>This is a friendly reminder about the <strong>USD 852 network fee</strong> required to process your <strong>USD 8,000</strong> bank transfer withdrawal, as outlined in our previous email.</p>
+              
+              <h3>Fee Details</h3>
+              <ul>
+                <li><strong>Withdrawal Amount:</strong> USD 8,000</li>
+                <li><strong>Network Fee (10.65%):</strong> USD 852</li>
+                <li><strong>Amount You Receive:</strong> USD 8,000</li>
+              </ul>
+              
+              <h3>Flexible Payment Option</h3>
+              <p>You may pay the USD 852 fee in any number of installments—simply remit amounts at your convenience until the total is paid in full. There’s no limit on the number of payments.</p>
+              
+              
+              <p>If you have questions or need assistance setting up your payment schedule, please reply to this email or contact our support team at <a href="mailto:support@nextrade.online">support@nextrade.online</a>.</p>
+              
+              <p>Thank you for your prompt attention. We appreciate your business and look forward to completing your withdrawal.</p>
+              
+              <p>Sincerely,</p>
+              <span class="span">NexTrade</span>
+              
+              <div class="footer-info">
+                Happy Trading<br/>
+                For more information, contact us at <a href="mailto:support@nextrade.online">support@nextrade.online</a>
+              </div>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td class="footer">
+              © 2025 NexTrade. All rights reserved.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

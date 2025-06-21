@@ -1020,18 +1020,18 @@ if ($statusLower === 'unverified' || $statusLower == 'rejected' || $statusLower 
 
 
 <!-- TradingView Widget BEGIN -->
-<section class="w-full bg-gray-800 shadow-xl rounded-xl p-2 pb-0 mt-6" style="height: 90vh;">
+<section class="w-full bg-gray-800 shadow-xl rounded-xl p-6 mt-6" style="height: 90vh;">
   <!-- Styled Heading -->
-  <h1 class="text-white text-center font-bold text-xl mb-3">
-    Crypto Currency Market
+  <h1 class="text-white text-center font-bold text-2xl mb-4">
+    Crypto Currency Market Overview
   </h1>
 
-  <div class="tradingview-widget-container" style="width: 100%; height: 80%; overflow: hidden;">
-    <div class="tradingview-widget-container__widget" style="width: 100%; height: 90%;"></div>
+  <div class="tradingview-widget-container" style="width: 100%; height: calc(100% - 2rem); overflow: hidden; border-radius: 0.5rem;">
+    <div class="tradingview-widget-container__widget" style="width: 100%; height: 100%;"></div>
     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
     {
       "width": "100%",
-      "height": 550,
+      "height": "100%",
       "defaultColumn": "performance",
       "screener_type": "crypto_mkt",
       "displayCurrency": "BTC",

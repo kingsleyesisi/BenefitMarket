@@ -148,14 +148,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Database operations with proper error handling (using deposit code pattern)
+    $trade_id = null;
+    $usd_balance = 0.0;
+    
     try {
+        // Start transaction
         $conn->beginTransaction();
-
-        // Check USD balance for Buy
+        
+        // Check USD balance for Buy trades
         if (strtolower($trade_category) === 'buy') {
             $stmtBal = $conn->prepare("SELECT usd_balance FROM users WHERE user_id = ?");
-            $stmtBal->execute([$user_id]);
-            $balRow  = $stmtBal->fetch(PDO::FETCH_ASSOC);
+            $result = $stmtBal->execute([$user_id]);
+            
+            if (!$result) {
+                throw new Exception("Failed to query user balance.");
+            }
+            
+            $balRow = $stmtBal->fetch(PDO::FETCH_ASSOC);
+            if (!$balRow) {
+                throw new Exception("User balance not found.");
+            }
+            
             $usd_balance = $balRow['usd_balance'] ?? 0.0;
             if ($amount > $usd_balance) {
                 throw new Exception("Insufficient USD balance. Available: $" . number_format($usd_balance, 2));
@@ -164,33 +178,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Ensure user exists
         $stmtCheck = $conn->prepare("SELECT 1 FROM users WHERE user_id = ?");
-        $stmtCheck->execute([$user_id]);
+        $checkResult = $stmtCheck->execute([$user_id]);
+        
+        if (!$checkResult) {
+            throw new Exception("Failed to verify user existence.");
+        }
+        
         if (!$stmtCheck->fetchColumn()) {
             throw new Exception("User not found.");
         }
 
-        // Insert trade
+        // Generate unique trade ID
         $trade_id = generateUniqueTradeId($conn);
+
+        // Insert trade
         $ins = $conn->prepare("
             INSERT INTO trades (
                 trade_id, user_id, trade_category, trade_type,
                 asset, lot_size, entry_price, amount, trade_date
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
-        $ins->execute([
+        
+        $insertResult = $ins->execute([
             $trade_id, $user_id, $trade_category, $trade_type,
             $asset, $lot_size, $entry_price, $amount, $trade_date
         ]);
-
-        // Deduct USD for Buy
-        if (strtolower($trade_category) === 'buy') {
-            $upd = $conn->prepare("UPDATE users SET usd_balance = usd_balance - ? WHERE user_id = ?");
-            $upd->execute([$amount, $user_id]);
+        
+        if (!$insertResult) {
+            throw new Exception("Failed to insert trade record.");
         }
 
+        // Deduct USD for Buy trades
+        if (strtolower($trade_category) === 'buy') {
+            $upd = $conn->prepare("UPDATE users SET usd_balance = usd_balance - ? WHERE user_id = ?");
+            $updateResult = $upd->execute([$amount, $user_id]);
+            
+            if (!$updateResult) {
+                throw new Exception("Failed to update user balance.");
+            }
+        }
+
+        // Commit transaction only after all database operations succeed
         $conn->commit();
 
-        // Send confirmation email
+    } catch (PDOException $e) {
+        // Rollback on database error
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
+        error_log("POSTGRES ERROR: " . $e->getMessage());
+        $_SESSION['notification']      = "DATABASE ERROR: " . $e->getMessage();
+        $_SESSION['notification_type'] = "error";
+        header("Location: trades.php");
+        exit();
+        
+    } catch (Exception $e) {
+        // Rollback on other errors
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
+        error_log("Error: " . $e->getMessage());
+        $_SESSION['notification']      = "Error: " . $e->getMessage();
+        $_SESSION['notification_type'] = "error";
+        header("Location: trades.php");
+        exit();
+    }
+
+    // Send confirmation email (only after successful database operations)
+    try {
         $mailSent = sendTradeConfirmationEmail(
             $user['email'],
             $user['fname'],
@@ -206,19 +261,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$mailSent) {
             error_log("Failed to send trade email for ID $trade_id");
         }
-
-        $_SESSION['notification']      = "Trade placed successfully! (ID: $trade_id)";
-        $_SESSION['notification_type'] = "success";
-        header("Location: trades.php");
-        exit();
-
     } catch (Exception $e) {
-        $conn->rollBack();
-        $_SESSION['notification']      = "Error: " . $e->getMessage();
-        $_SESSION['notification_type'] = "error";
-        header("Location: trades.php");
-        exit();
+        error_log("Email sending error for trade ID $trade_id: " . $e->getMessage());
+        // Don't fail the entire operation for email errors
     }
+
+    $_SESSION['notification']      = "Trade placed successfully! (ID: $trade_id)";
+    $_SESSION['notification_type'] = "success";
+    header("Location: trades.php");
+    exit();
 }
 ?>
 

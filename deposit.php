@@ -53,7 +53,7 @@ if (!isset($_SESSION['csrf_token'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benefit Market Trade - Deposit</title>
+  <title>Benefit Market - Deposit</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Feather Icons -->
@@ -196,12 +196,7 @@ if (!isset($_SESSION['csrf_token'])) {
           <span class="ml-2">Deposit</span>
         </a>
       </li>
-      <li>
-  <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-    <i class="ri-notification-line text-xl"></i>
-    <span class="ml-2">Notifications</span>
-  </a>
-</li>
+      
 
       <li>
         <a href="withdraw.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -215,12 +210,12 @@ if (!isset($_SESSION['csrf_token'])) {
           <span class="ml-2">Subscriptions</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-shield-check-line text-xl"></i>
           <span class="ml-2">Verify Account</span>
         </a>
-      </li>
+      </li> -->
       <li>
         <a href="settings.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-settings-3-line text-xl"></i>
@@ -259,7 +254,7 @@ if (!isset($_SESSION['csrf_token'])) {
     <div class="flex items-center">
       <a href="user_dashboard.php" class="flex items-center">
         <i class="ri-home-line text-2xl text-white"></i>
-        <span class="text-2xl ml-2">Benefit Market Trade</span>
+        <span class="text-2xl ml-2">Benefit Smart</span>
       </a>
     </div>
     <button id="closeSidebar" class="text-white">
@@ -312,12 +307,7 @@ if (!isset($_SESSION['csrf_token'])) {
             <span class="ml-2">Deposit</span>
           </a>
         </li>
-        <li>
-  <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-    <i class="ri-notification-line text-xl"></i>
-    <span class="ml-2">Notifications</span>
-  </a>
-</li>
+       
 
         <li>
           <a
@@ -337,7 +327,7 @@ if (!isset($_SESSION['csrf_token'])) {
             <span class="ml-2">Subscriptions</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a
             href="verification.php"
             class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
@@ -345,7 +335,7 @@ if (!isset($_SESSION['csrf_token'])) {
             <i class="ri-shield-check-line text-xl"></i>
             <span class="ml-2">Verify Account</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a
             href="settings.php"
@@ -394,7 +384,7 @@ if (!isset($_SESSION['csrf_token'])) {
           </button>
           <a href="user_dashboard.php">
                 <i class="ri-home-line text-2xl"></i>
-                <span class=" text-2xl ">Benefit Market Trade</span>
+                <span class=" text-2xl ">Benefit Smart</span>
               </a>
           <div class="flex items-center space-x-4">
             <button id="mobileNotificationBtn" class="text-gray-500 focus:outline-none relative">

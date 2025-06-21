@@ -114,7 +114,7 @@ if (isset($_POST['update_trading_bot'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard -Benefit Market Trade</title>
+  <title>Admin Users -Benefit Market Trade</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Remix Icon CDN -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
@@ -229,13 +229,13 @@ if (isset($_POST['update_trading_bot'])) {
         </a>
       </li>
       <!-- Verifications Link -->
-      <li>
+      <!-- <li>
         <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-checkbox-circle-line text-xl"></i>
           <span class="ml-2">Verifications</span>
         </a>
       </li>
-    </ul>
+    </ul> -->
     <br>
     <ul class="logout-mode">
       <li>
@@ -303,13 +303,13 @@ if (isset($_POST['update_trading_bot'])) {
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-checkbox-circle-line text-xl"></i>
           <span class="ml-2">Verifications</span>
         </a>
       </li>
-    </ul>
+    </ul> -->
     <br>
     <ul class="logout-mode">
       <li>
@@ -353,11 +353,7 @@ if (isset($_POST['update_trading_bot'])) {
                     <i class="ri-user-line mr-2"></i>Dashboard
                   </a>
                 </li>
-                     <li>
-                  <a href="admin_verification.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <i class=" class="ri-checkbox-circle-line mr-2"></i> Verifications
-                  </a>
-                </li>
+                
 
                 <li>
                   <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -378,7 +374,7 @@ if (isset($_POST['update_trading_bot'])) {
           </button>
           <a href="admin_dashboard.php" class="flex items-center">
             <i class="ri-dashboard-line text-2xl"></i>
-            <span class="ml-2 text-2xl font-bold">Benefit Market Trade Admin</span>
+            <span class="ml-2 text-2xl font-bold">Benefit Smart</span>
           </a>
           <button id="mobileAdminUserBtn" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center focus:outline-none">
             <i class="ri-user-line text-xl text-gray-600"></i>

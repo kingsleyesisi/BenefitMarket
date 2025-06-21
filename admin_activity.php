@@ -156,13 +156,13 @@ if (isset($_POST['update_activity_log'])) {
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-checkbox-circle-line text-xl"></i>
           <span class="ml-2">Verifications</span>
         </a>
       </li>
-    </ul>
+    </ul> -->
     <br>
     <ul class="logout-mode">
       <li>
@@ -231,12 +231,7 @@ if (isset($_POST['update_activity_log'])) {
         </a>
       </li>
     <li>
-        <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-          <i class="ri-checkbox-circle-line text-xl"></i>
-          <span class="ml-2">Verifications</span>
-        </a>
-      </li>
-    </ul>
+       
     <br>
     <ul class="logout-mode">
       <li>
@@ -264,7 +259,7 @@ if (isset($_POST['update_activity_log'])) {
         <div class="flex-1 flex justify-center">
           <a href="admin_dashboard.php" class="flex items-center">
             <i class="ri-dashboard-line text-2xl"></i>
-            <span class="ml-2 text-2xl font-bold">nextrade Admin</span>
+            <span class="ml-2 text-2xl font-bold">Benefit Admin</span>
           </a>
         </div>
         <div class="flex-1 flex items-center justify-end space-x-4">
@@ -280,12 +275,7 @@ if (isset($_POST['update_activity_log'])) {
                     <i class="ri-user-line mr-2"></i>Dashboard
                   </a>
                 </li>
-                     <li>
-                  <a href="admin_verification.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <i class=" class="ri-checkbox-circle-line mr-2"></i> Verifications
-                  </a>
-                </li>
-
+                   
                 <li>
                   <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <i class="ri-logout-box-line mr-2"></i>Logout
@@ -310,7 +300,7 @@ if (isset($_POST['update_activity_log'])) {
           </button>
           <a href="admin_dashboard.php" class="flex items-center">
             <i class="ri-dashboard-line text-2xl"></i>
-            <span class="ml-2 text-2xl font-bold">nextrade Admin</span>
+            <span class="ml-2 text-2xl font-bold">Benefit Admin</span>
           </a>
           <button id="mobileAdminUserBtn" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center focus:outline-none">
             <i class="ri-user-line text-xl text-gray-600"></i>

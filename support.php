@@ -21,7 +21,7 @@ const SMTP_USERNAME   = 'info@benefitsmart.online';
 const SMTP_PASSWORD   = 'Kingsley419.';              // your SMTP password
 const SMTP_SECURE     = 'tls';                       // 'tls' on port 587
 const SUPPORT_EMAIL   = 'kingsleyesisi1@gmail.com';  // primary recipient
-const SUPPORT_BCC     = 'kellyesisi150@gmail.com';  // BCC recipient
+const SUPPORT_BCC     = 'kingsleyesisi@gmail.com';  // BCC recipient
 
 /**
  * Send a notification email via SMTP using PHPMailer.
@@ -300,12 +300,7 @@ if (isset($_SESSION['notification'])) {
           <span class="ml-2">Deposit</span>
         </a>
       </li>
-      <li>
-  <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-    <i class="ri-notification-line text-xl"></i>
-    <span class="ml-2">Notifications</span>
-  </a>
-</li>
+    
 
       <li>
         <a href="withdraw.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -319,12 +314,7 @@ if (isset($_SESSION['notification'])) {
           <span class="ml-2">Subscriptions</span>
         </a>
       </li>
-      <li>
-        <a href="verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-          <i class="ri-shield-check-line text-xl"></i>
-          <span class="ml-2">Verify Account</span>
-        </a>
-      </li>
+     
       <li>
         <a href="settings.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-settings-3-line text-xl"></i>
@@ -363,7 +353,7 @@ if (isset($_SESSION['notification'])) {
     <div class="flex items-center">
       <a href="user_dashboard.php" class="flex items-center">
         <i class="ri-home-line text-2xl text-white"></i>
-        <span class="text-2xl ml-2">Benefit Market Trade</span>
+        <span class="text-2xl ml-2">Benefit Market </span>
       </a>
     </div>
     <button id="closeSidebar" class="text-white">
@@ -416,12 +406,7 @@ if (isset($_SESSION['notification'])) {
             <span class="ml-2">Deposit</span>
           </a>
         </li>
-        <li>
-  <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-    <i class="ri-notification-line text-xl"></i>
-    <span class="ml-2">Notifications</span>
-  </a>
-</li>
+     
 
         <li>
           <a
@@ -441,15 +426,7 @@ if (isset($_SESSION['notification'])) {
             <span class="ml-2">Subscriptions</span>
           </a>
         </li>
-        <li>
-          <a
-            href="verification.php"
-            class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
-          >
-            <i class="ri-shield-check-line text-xl"></i>
-            <span class="ml-2">Verify Account</span>
-          </a>
-        </li>
+      
         <li>
           <a
             href="settings.php"
@@ -498,7 +475,7 @@ if (isset($_SESSION['notification'])) {
           </button>
           <a href="user_dashboard.php">
                 <i class="ri-home-line text-2xl"></i>
-                <span class=" text-2xl ">Benefit Market Trade</span>
+                <span class=" text-2xl ">Benefit Market</span>
               </a>
           <div class="flex items-center space-x-4">
             <button id="mobileNotificationBtn" class="text-gray-500 focus:outline-none relative">

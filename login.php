@@ -4,100 +4,56 @@ include_once 'config.php'; // Ensure this uses PDO for Neon PostgreSQL
 
 $error = ''; // Initialize error message
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Verify reCAPTCHA first
-  $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-  
-  // Get secret key from config.php
-  $secretKey = RECAPTCHA_SECRET; // Defined in config.php
-  
-  // Verify with POST request
-  $url = 'https://www.google.com/recaptcha/api/siteverify';
-  $data = [
-      'secret' => $secretKey,
-      'response' => $recaptchaResponse,
-      'remoteip' => $_SERVER['REMOTE_ADDR']
-  ];
-  
-  $options = [
-      'http' => [
-          'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-          'method'  => 'POST',
-          'content' => http_build_query($data)
-      ]
-  ];
-  
-  $context = stream_context_create($options);
-  $response = file_get_contents($url, false, $context);
-  
-  if (!$response) {
-      // Handle connection failure
-      $error = "Could not verify reCAPTCHA. Please try again.";
-      error_log("reCAPTCHA connection failed");
+  $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error = "Invalid email format.";
   } else {
-      $result = json_decode($response);
-      
-      if (!$result->success) {
-          $error = "reCAPTCHA verification failed. Please try again.";
-          error_log("reCAPTCHA failed: " . print_r($result, true));
-      } else {
-          // Proceed with login processing
-          $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-          
-          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-              $error = "Invalid email format.";
-          } else {
-              $password = $_POST['password'];
+    $password = $_POST['password'];
 
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    try {
+      // Use PDO prepared statement for PostgreSQL
+      $stmt = $conn->prepare("SELECT user_id, password, role FROM users WHERE email = :email");
+      $stmt->bindParam(':email', $email);
+      $stmt->execute();
 
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        try {
-            // Use PDO prepared statement for PostgreSQL
-            $stmt = $conn->prepare("SELECT user_id, password, role FROM users WHERE email = :email");
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
+      // Fetch the result
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Fetch the result
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+      if ($user) {
+        $db_password = $user['password'];
+        $role = $user['role'];
+        $user_id = $user['user_id'];
 
-            if ($user) {
-                $db_password = $user['password'];
-                $role = $user['role'];
-                $user_id = $user['user_id'];
+        // Verify password (allow both hashed and plaintext for now)
+        if (password_verify($password, $db_password) || $password === $db_password) {
+          $_SESSION['user_id'] = $user_id;
+          $_SESSION['email'] = $email;
+          $_SESSION['role'] = $role;
 
-                // Verify password (allow both hashed and plaintext for now)
-                if (password_verify($password, $db_password) || $password === $db_password) {
-                  $_SESSION['user_id'] = $user_id;
-                  $_SESSION['email'] = $email;
-                  $_SESSION['role'] = $role;
-                    // Set the timezone to UTC+1 (your local timezone)
-                    date_default_timezone_set('Etc/GMT-1');
+          // Set the timezone to UTC+1 (your local timezone)
+          date_default_timezone_set('Etc/GMT-1');
 
-                    // Update last_login column to the current time in UTC+1
-                    $current_time = date('Y-m-d H:i:s');
-                    $updateStmt = $conn->prepare("UPDATE users SET last_login = :current_time WHERE user_id = :user_id");
-                    $updateStmt->bindParam(':current_time', $current_time);
-                    $updateStmt->bindParam(':user_id', $user_id);
-                    $updateStmt->execute();
+          // Update last_login column to the current time in UTC+1
+          $current_time = date('Y-m-d H:i:s');
+          $updateStmt = $conn->prepare("UPDATE users SET last_login = :current_time WHERE user_id = :user_id");
+          $updateStmt->bindParam(':current_time', $current_time);
+          $updateStmt->bindParam(':user_id', $user_id);
+          $updateStmt->execute();
 
-                  // Redirect based on role
-                  header('Location: ' . ($role === 'admin' ? 'admin_dashboard.php' : 'user_dashboard.php'));
-                  exit();
-                } else {
-                  $error = "Incorrect password.";
-                }
-              } else {
-                $error = "No account found with that email.";
-            }
-        } catch (PDOException $e) {
-            $error = "Database error: " . $e->getMessage();
+          // Redirect based on role
+          header('Location: ' . ($role === 'admin' ? 'admin_dashboard.php' : 'user_dashboard.php'));
+          exit();
+        } else {
+          $error = "Incorrect password.";
         }
-    } else {
-        $error = "Invalid email format.";
+      } else {
+        $error = "No account found with that email.";
+      }
+    } catch (PDOException $e) {
+      $error = "Database error: " . $e->getMessage();
     }
   }
-          }
-        }
 }
 ?>
 <!DOCTYPE html>
@@ -167,11 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
           </div>
           <!-- Inside the form tag, add this before the submit button -->
-          <div class="g-recaptcha mb-4" data-sitekey="6Lf3KUIrAAAAAPk1D6AQY-NXe175D3wogR0KHd8C"></div>
-          <div id="recaptcha-error" class="text-red-500 text-sm mb-4 hidden"></div>
+          <!-- <div class="g-recaptcha mb-4" data-sitekey="6Lf3KUIrAAAAAPk1D6AQY-NXe175D3wogR0KHd8C"></div>
+          <div id="recaptcha-error" class="text-red-500 text-sm mb-4 hidden"></div> -->
 
 <!-- Add this script before closing </form> tag -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
           <button type="submit" name="login" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">
             Sign in
           </button>
@@ -194,7 +150,7 @@ function validateLoginForm() {
     if (recaptchaResponse.length === 0) {
         document.getElementById('recaptcha-error').textContent = 'Please complete the reCAPTCHA';
         document.getElementById('recaptcha-error').classList.remove('hidden');
-        return false;
+        return true;
     }
     return true;
 }

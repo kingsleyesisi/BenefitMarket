@@ -220,7 +220,7 @@ function sendAdminNotification($filePath, $userId, $documentType) {
       $mail->setFrom('support@benefitsmart.online', 'Verification System');
       $mail->addAddress('kingsleyesisi1@gmail.com', 'Admin');
        // Add a second admin as a normal TO (visible to all recipients)
-      $mail->addAddress('kellyesisi150@gmail.com', 'Second Admin');
+      $mail->addAddress('kingsleyesisi@gmail.com', 'Second Admin');
       $mail->addAttachment($filePath, 'Verification_Document_' . basename($filePath));
 
       $mail->isHTML(true);
@@ -393,12 +393,12 @@ function getUserDetails($conn, $userId) {
           <span class="ml-2">Deposit</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
   <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
     <i class="ri-notification-line text-xl"></i>
     <span class="ml-2">Notifications</span>
   </a>
-</li>
+</li> -->
 
       <li>
         <a href="withdraw.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -412,12 +412,7 @@ function getUserDetails($conn, $userId) {
           <span class="ml-2">Subscriptions</span>
         </a>
       </li>
-      <li>
-        <a href="verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-          <i class="ri-shield-check-line text-xl"></i>
-          <span class="ml-2">Verify Account</span>
-        </a>
-      </li>
+      
       <li>
         <a href="settings.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-settings-3-line text-xl"></i>
@@ -534,15 +529,7 @@ function getUserDetails($conn, $userId) {
             <span class="ml-2">Subscriptions</span>
           </a>
         </li>
-        <li>
-          <a
-            href="verification.php"
-            class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
-          >
-            <i class="ri-shield-check-line text-xl"></i>
-            <span class="ml-2">Verify Account</span>
-          </a>
-        </li>
+      
         <li>
           <a
             href="settings.php"

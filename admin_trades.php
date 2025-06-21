@@ -284,7 +284,7 @@ $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="flex-1 flex justify-center">
           <a href="admin_dashboard.php" class="flex items-center">
             <i class="ri-dashboard-line text-2xl"></i>
-            <span class="ml-2 text-2xl font-bold">nextrade Admin</span>
+            <span class="ml-2 text-2xl font-bold">Benefit  Admin</span>
           </a>
         </div>
         <div class="flex-1 flex items-center justify-end space-x-4">
@@ -324,7 +324,7 @@ $trades = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </button>
           <a href="admin_dashboard.php" class="flex items-center">
             <i class="ri-dashboard-line text-2xl"></i>
-            <span class="ml-2 text-2xl font-bold">nextrade Admin</span>
+            <span class="ml-2 text-2xl font-bold">Benefit  Admin</span>
           </a>
           <button id="mobileAdminUserBtn" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center focus:outline-none">
             <i class="ri-user-line text-xl text-gray-600"></i>

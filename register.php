@@ -16,21 +16,9 @@ use PHPMailer\PHPMailer\Exception;
 
 $errors = [];
 $message = '';
-$redirect = false;
-
-$secretKey = RECAPTCHA_SECRET;
-
-// Add reCAPTCHA verification FIRST before any other processing
+$redirect = true;
+// Remove reCAPTCHA verification and proceed with form processing
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Verify reCAPTCHA
-  $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-  $url = "https://www.google.com/recaptcha/api/siteverify?secret=".RECAPTCHA_SECRET."&response=$recaptchaResponse";
-  $response = file_get_contents($url);
-  $result = json_decode($response);
-  
-  if (!$result->success) {
-      $errors[] = "reCAPTCHA verification failed. Please try again.";
-  }
 
   // Then your existing input sanitization
     $fname = trim($_POST['fname']);
@@ -39,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirm = $_POST['confirm_password'];
     $phone = trim($_POST['phone']);
-    $dob_raw = trim($_POST['dob']);
     $country = trim($_POST['country']);
     $currency = trim($_POST['currency']);
     $referral_code = isset($_POST['referral_code']) ? trim($_POST['referral_code']) : null;
@@ -56,9 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!preg_match("/^\+?[0-9]{10,15}$/", $phone)) {
         $errors[] = "Invalid phone number.";
     }
-    if (empty($dob_raw) || !DateTime::createFromFormat('Y-m-d', $dob_raw)) {
-        $errors[] = "Invalid date of birth.";
-    }
+  
     if (empty($country)) {
         $errors[] = "Country is required.";
     }
@@ -84,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               // Insert user
               $stmt = $conn->prepare("
                   INSERT INTO users 
-                  (unique_id, account_id, fname, lname, email, password, phone, dateofbirth, country, currency, account_type) 
-                  VALUES (:unique_id, :account_id, :fname, :lname, :email, :password, :phone, :dob, :country, :currency, :account_type)
+                  (unique_id, account_id, fname, lname, email, password, phone, country, currency, account_type) 
+                  VALUES (:unique_id, :account_id, :fname, :lname, :email, :password, :phone, :country, :currency, :account_type)
               ");
 
               $stmt->execute([
@@ -96,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   ':email' => $email,
                   ':password' => $password,
                   ':phone' => $phone,
-                  ':dob' => $dob_raw,
                   ':country' => $country,
                   ':currency' => $currency,
                   ':account_type' => $account_type
@@ -133,6 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message = "Registration successful! Welcome, $fname!";
                 $redirect = true;
 
+                if ($redirect) {
+                    header("Location: user_dashboard.php");
+                    exit;
+                }
 
                     // Build additional welcome details
                     $welcomeDetails = [
@@ -141,7 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ['label'=>'Unique ID',         'value'=>$unique_id],
                         ['label'=>'Registered Email',  'value'=>$email],
                         ['label'=>'Phone Number',      'value'=>$phone],
-                        ['label'=>'Date of Birth',     'value'=>$dob_raw],
                         ['label'=>'Country',           'value'=>$country],
                         ['label'=>'Currency',          'value'=>$currency],
                         ['label'=>'Registration Date', 'value'=>date('Y-m-d H:i:s')],
@@ -323,7 +310,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
           <a href="login.php" class="flex items-center">
             <i class="ri-home-line text-2xl text-blue-500"></i>
             <span class="text-2xl ml-2 text-white">Benefit Market Trade</span>
-          </a>
+          </a>  
           <br>
           <h4 class="text-2xl font-bold text-white">Register Now</h4>
           <p class="mt-2 text-gray-200">
@@ -426,18 +413,18 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
   });
 
 
-  // Get reference to your dob input
-  const dobInput = document.querySelector('input[name="dob"]');
+  // // Get reference to your dob input
+  // const dobInput = document.querySelector('input[name="dob"]');
 
-  // Calculate today's date minus 18 years
-  const today = new Date();
-  today.setFullYear(today.getFullYear() - 16);
-  const maxDate = today.toISOString().split('T')[0];
+  // // Calculate today's date minus 18 years
+  // const today = new Date();
+  // today.setFullYear(today.getFullYear() - 16);
+  // const maxDate = today.toISOString().split('T')[0];
 
-  // Set the max attribute so the picker won’t allow dates after this
-  dobInput.addEventListener('focus', () => {
-    dobInput.setAttribute('max', maxDate);
-  });
+  // // Set the max attribute so the picker won’t allow dates after this
+  // dobInput.addEventListener('focus', () => {
+  //   dobInput.setAttribute('max', maxDate);
+  // });
 
 
   </script>
@@ -467,7 +454,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
       <input type="number" name="phone" placeholder="Phone number"
              required pattern="^\+?[0-9]{10,15}$"
              class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-
+<!-- 
              <input
     name="dob"
     type="text"
@@ -476,7 +463,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
     onblur="if(!this.value) this.type='text';"
     required
     class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-  >
+  > -->
       <select id="country" name="country" required
               class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
         <option value="" disabled selected>Choose Country</option>
@@ -494,7 +481,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
       <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
              required minlength="8"
              class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-
+<!-- 
       <?php
       // Check if referral code is present in the URL
       $referral_code = isset($_GET['ref']) ? htmlspecialchars($_GET['ref']) : '';
@@ -503,7 +490,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
       <input type="text" name="referral_code" placeholder="Referral Code (Optional)"
              value="<?php echo $referral_code; ?>"
              <?php echo $is_readonly; ?>
-             class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+             class="w-full px-3 py-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"> -->
 
       <div class="flex items-center text-sm">
         <input type="checkbox" id="remember" name="remember" class="mr-2">
@@ -511,14 +498,14 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
           Remember me <a href="/privacy.php" class="text-orange-500 hover:underline">Terms &amp; Privacy Policy</a>
         </label>
       </div>
-      <div class="g-recaptcha mb-4" data-sitekey="6Lf3KUIrAAAAAPk1D6AQY-NXe175D3wogR0KHd8C"></div>
-      <div id="recaptcha-error" class="text-red-500 text-sm mb-4 hidden"></div>
+      <!-- <div class="g-recaptcha mb-4" data-sitekey="6Lf3KUIrAAAAAPk1D6AQY-NXe175D3wogR0KHd8C"></div>
+      <div id="recaptcha-error" class="text-red-500 text-sm mb-4 hidden"></div> -->
       <button type="submit"
               class="w-full py-2 text-sm bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 transition">
         Sign Up
       </button>
     </div>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
   </form>
 
 
@@ -528,7 +515,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
     if (recaptchaResponse.length === 0) {
         document.getElementById('recaptcha-error').textContent = 'Please complete the reCAPTCHA';
         document.getElementById('recaptcha-error').classList.remove('hidden');
-        return false;
+        return true;
     }
     
     return true;

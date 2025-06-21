@@ -246,7 +246,7 @@ switch (strtolower($tradingBotStatus)) {
       <li class="navlogo flex items-center">
         <a href="user_dashboard.php">
           <i class="ri-home-line text-2xl"></i>
-          <span class="text-2xl">Benefit Market Trade</span>
+          <span class="text-2xl">Benefit Smart</span>
         </a>
       </li>
       <hr class="my-2 border-gray-400">
@@ -275,12 +275,12 @@ switch (strtolower($tradingBotStatus)) {
           <span class="ml-2">Deposit</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
   <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
     <i class="ri-notification-line text-xl"></i>
     <span class="ml-2">Notifications</span>
   </a>
-</li>
+</li> -->
 
       <li>
         <a href="withdraw.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -294,24 +294,24 @@ switch (strtolower($tradingBotStatus)) {
           <span class="ml-2">Subscriptions</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-shield-check-line text-xl"></i>
           <span class="ml-2">Verify Account</span>
         </a>
-      </li>
+      </li> -->
       <li>
         <a href="settings.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-settings-3-line text-xl"></i>
           <span class="ml-2">Settings</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
     <a href="referral.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-user-add-line text-xl"></i>
         <span class="ml-2">Referrals</span>
     </a>
-</li>
+</li> -->
        <li>
         
       <li>
@@ -346,7 +346,7 @@ switch (strtolower($tradingBotStatus)) {
     <div class="flex items-center">
       <a href="user_dashboard.php" class="flex items-center">
         <i class="ri-home-line text-2xl text-white"></i>
-        <span class="text-2xl ml-2">Benefit Market Trade</span>
+        <span class="text-2xl ml-2">Benefit Smart</span>
       </a>
     </div>
     <button id="closeSidebar" class="text-white">
@@ -399,12 +399,12 @@ switch (strtolower($tradingBotStatus)) {
             <span class="ml-2">Deposit</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
   <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
     <i class="ri-notification-line text-xl"></i>
     <span class="ml-2">Notifications</span>
   </a>
-</li>
+</li> -->
 
         <li>
           <a
@@ -424,7 +424,7 @@ switch (strtolower($tradingBotStatus)) {
             <span class="ml-2">Subscriptions</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a
             href="verification.php"
             class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
@@ -432,7 +432,7 @@ switch (strtolower($tradingBotStatus)) {
             <i class="ri-shield-check-line text-xl"></i>
             <span class="ml-2">Verify Account</span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a
             href="settings.php"
@@ -443,12 +443,12 @@ switch (strtolower($tradingBotStatus)) {
           </a>
         </li>
 
-        <li>
+        <!-- <li>
     <a href="referral.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-user-add-line text-xl"></i>
         <span class="ml-2">Referrals</span>
     </a>
-</li>
+</li> -->
 
         <li>
           <a
@@ -489,7 +489,7 @@ switch (strtolower($tradingBotStatus)) {
           </button>
           <a href="user_dashboard.php">
                 <i class="ri-home-line text-2xl"></i>
-                <span class=" text-2xl ">Benefit Market Trade</span>
+                <span class=" text-2xl ">Benefit Smart</span>
               </a>
           <div class="flex items-center space-x-4">
             <button id="mobileNotificationBtn" class="text-gray-500 focus:outline-none relative">
@@ -715,12 +715,12 @@ if ($statusLower === 'unverified' || $statusLower == 'rejected' || $statusLower 
           Member since:
           <span class="font-medium"><?php echo date('M Y', strtotime($row['created_at'])); ?></span>
         </p>
-        <p class="text-sm text-gray-400">
-          Account Status:
+        <!-- <p class="text-sm text-gray-400">
+          Account Type:
           <span class="font-bold <?php echo $statusClass; ?>">
-            <?php echo htmlspecialchars($verificationStatus); ?>
+            <?php echo htmlspecialchars($account_type); ?>
           </span>
-        </p>
+        </p> -->
       </div>
     </div>
 
@@ -757,12 +757,12 @@ if ($statusLower === 'unverified' || $statusLower == 'rejected' || $statusLower 
         <p class="text-gray-300 lg:hidden">
           <?php echo htmlspecialchars($row['email']); ?>
         </p>
-        <p class="text-sm text-gray-400 mt-2 lg:hidden">
+        <!-- <p class="text-sm text-gray-400 mt-2 lg:hidden">
           Account Status:
           <span class="font-bold  <?php echo $statusClass; ?>">
             <?php echo htmlspecialchars($verificationStatus); ?>
           </span>
-        </p>
+        </p> -->
         
       </div>
     </div>

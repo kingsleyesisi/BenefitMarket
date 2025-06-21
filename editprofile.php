@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benefit Market Trade - Dashboard</title>
+  <title>Edit Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Remix Icon CDN -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
@@ -243,12 +243,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <span class="ml-2">Deposit</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
   <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
     <i class="ri-notification-line text-xl"></i>
     <span class="ml-2">Notifications</span>
   </a>
-</li>
+</li> -->
 
       <li>
         <a href="withdraw.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -262,12 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <span class="ml-2">Subscriptions</span>
         </a>
       </li>
-      <li>
-        <a href="verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-          <i class="ri-shield-check-line text-xl"></i>
-          <span class="ml-2">Verify Account</span>
-        </a>
-      </li>
+     
       <li>
         <a href="settings.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-settings-3-line text-xl"></i>
@@ -306,7 +301,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="flex items-center">
       <a href="login.php" class="flex items-center">
         <i class="ri-home-line text-2xl text-white"></i>
-        <span class="text-2xl ml-2">Benefit Market Trade</span>
+        <span class="text-2xl ml-2">Benefit Smart</span>
       </a>
     </div>
     <button id="closeSidebar" class="text-white">
@@ -360,13 +355,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           </a>
         </li>
         <li>
-  <a href="notifications.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-    <i class="ri-notification-line text-xl"></i>
-    <span class="ml-2">Notifications</span>
-  </a>
-</li>
-
-        <li>
           <a
             href="withdraw.php"
             class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
@@ -384,15 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <span class="ml-2">Subscriptions</span>
           </a>
         </li>
-        <li>
-          <a
-            href="verification.php"
-            class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors"
-          >
-            <i class="ri-shield-check-line text-xl"></i>
-            <span class="ml-2">Verify Account</span>
-          </a>
-        </li>
+        
         <li>
           <a
             href="settings.php"
@@ -441,7 +421,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           </button>
           <a href="login.php">
                 <i class="ri-home-line text-2xl"></i>
-                <span class=" text-2xl ">Benefit Market Trade</span>
+                <span class=" text-2xl ">Benefit Smart</span>
               </a>
           <div class="flex items-center space-x-4">
             <button id="mobileNotificationBtn" class="text-gray-500 focus:outline-none relative">

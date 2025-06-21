@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Database operations with proper error handling (using deposit code pattern)
+    // Database operations with proper error handling and debugging
     $trade_id = null;
     $usd_balance = 0.0;
     
@@ -156,70 +156,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Start transaction
         $conn->beginTransaction();
         
+        // Debug: Log the input values
+        error_log("Trade Debug - User ID: $user_id, Category: $trade_category, Type: $trade_type, Asset: $asset, Lot Size: $lot_size, Entry Price: $entry_price, Amount: $amount");
+        
         // Check USD balance for Buy trades
         if (strtolower($trade_category) === 'buy') {
-            $stmtBal = $conn->prepare("SELECT usd_balance FROM users WHERE user_id = ?");
-            $result = $stmtBal->execute([$user_id]);
-            
-            if (!$result) {
-                throw new Exception("Failed to query user balance.");
-            }
-            
-            $balRow = $stmtBal->fetch(PDO::FETCH_ASSOC);
-            if (!$balRow) {
-                throw new Exception("User balance not found.");
-            }
-            
-            $usd_balance = $balRow['usd_balance'] ?? 0.0;
-            if ($amount > $usd_balance) {
-                throw new Exception("Insufficient USD balance. Available: $" . number_format($usd_balance, 2));
+            try {
+                $stmtBal = $conn->prepare("SELECT usd_balance FROM users WHERE user_id = ?");
+                $result = $stmtBal->execute([$user_id]);
+                
+                if (!$result) {
+                    throw new Exception("Failed to query user balance - execute returned false");
+                }
+                
+                $balRow = $stmtBal->fetch(PDO::FETCH_ASSOC);
+                if (!$balRow) {
+                    throw new Exception("User balance not found - user_id: $user_id");
+                }
+                
+                $usd_balance = $balRow['usd_balance'] ?? 0.0;
+                error_log("Trade Debug - User balance: $usd_balance, Required: $amount");
+                
+                if ($amount > $usd_balance) {
+                    throw new Exception("Insufficient USD balance. Available: $" . number_format($usd_balance, 2));
+                }
+            } catch (PDOException $e) {
+                error_log("PDO Error in balance check: " . $e->getMessage());
+                throw new Exception("Database error checking balance: " . $e->getMessage());
             }
         }
 
-        // Ensure user exists
-        $stmtCheck = $conn->prepare("SELECT 1 FROM users WHERE user_id = ?");
-        $checkResult = $stmtCheck->execute([$user_id]);
-        
-        if (!$checkResult) {
-            throw new Exception("Failed to verify user existence.");
-        }
-        
-        if (!$stmtCheck->fetchColumn()) {
-            throw new Exception("User not found.");
+        // Ensure user exists (separate check)
+        try {
+            $stmtCheck = $conn->prepare("SELECT 1 FROM users WHERE user_id = ?");
+            $checkResult = $stmtCheck->execute([$user_id]);
+            
+            if (!$checkResult) {
+                throw new Exception("Failed to verify user existence - execute returned false");
+            }
+            
+            if (!$stmtCheck->fetchColumn()) {
+                throw new Exception("User not found - user_id: $user_id");
+            }
+        } catch (PDOException $e) {
+            error_log("PDO Error in user check: " . $e->getMessage());
+            throw new Exception("Database error verifying user: " . $e->getMessage());
         }
 
         // Generate unique trade ID
-        $trade_id = generateUniqueTradeId($conn);
+        try {
+            $trade_id = generateUniqueTradeId($conn);
+            error_log("Trade Debug - Generated trade ID: $trade_id");
+        } catch (Exception $e) {
+            error_log("Error generating trade ID: " . $e->getMessage());
+            throw new Exception("Failed to generate trade ID: " . $e->getMessage());
+        }
 
         // Insert trade
-        $ins = $conn->prepare("
-            INSERT INTO trades (
-                trade_id, user_id, trade_category, trade_type,
-                asset, lot_size, entry_price, amount, trade_date
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
-        
-        $insertResult = $ins->execute([
-            $trade_id, $user_id, $trade_category, $trade_type,
-            $asset, $lot_size, $entry_price, $amount, $trade_date
-        ]);
-        
-        if (!$insertResult) {
-            throw new Exception("Failed to insert trade record.");
+        try {
+            $ins = $conn->prepare("
+                INSERT INTO trades (
+                    trade_id, user_id, trade_category, trade_type,
+                    asset, lot_size, entry_price, amount, trade_date
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            
+            $insertResult = $ins->execute([
+                $trade_id, $user_id, $trade_category, $trade_type,
+                $asset, $lot_size, $entry_price, $amount, $trade_date
+            ]);
+            
+            if (!$insertResult) {
+                throw new Exception("Failed to insert trade record - execute returned false");
+            }
+            
+            error_log("Trade Debug - Successfully inserted trade record");
+        } catch (PDOException $e) {
+            error_log("PDO Error in trade insert: " . $e->getMessage());
+            throw new Exception("Database error inserting trade: " . $e->getMessage());
         }
 
         // Deduct USD for Buy trades
         if (strtolower($trade_category) === 'buy') {
-            $upd = $conn->prepare("UPDATE users SET usd_balance = usd_balance - ? WHERE user_id = ?");
-            $updateResult = $upd->execute([$amount, $user_id]);
-            
-            if (!$updateResult) {
-                throw new Exception("Failed to update user balance.");
+            try {
+                $upd = $conn->prepare("UPDATE users SET usd_balance = usd_balance - ? WHERE user_id = ?");
+                $updateResult = $upd->execute([$amount, $user_id]);
+                
+                if (!$updateResult) {
+                    throw new Exception("Failed to update user balance - execute returned false");
+                }
+                
+                // Verify the update affected exactly one row
+                $rowsAffected = $upd->rowCount();
+                if ($rowsAffected !== 1) {
+                    throw new Exception("Balance update affected $rowsAffected rows, expected 1");
+                }
+                
+                error_log("Trade Debug - Successfully updated user balance");
+            } catch (PDOException $e) {
+                error_log("PDO Error in balance update: " . $e->getMessage());
+                throw new Exception("Database error updating balance: " . $e->getMessage());
             }
         }
 
         // Commit transaction only after all database operations succeed
         $conn->commit();
+        error_log("Trade Debug - Transaction committed successfully");
 
     } catch (PDOException $e) {
         // Rollback on database error

@@ -4,8 +4,8 @@
 		<meta charset="utf-8" />
 		<title>Benefit Market Trade- AI Powered Trading</title>
 		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-		<meta content="trading platform, online trading, asset trading, Next Trade, trading softeare, financial markets, investment platform, brazil trading, AI trading, Automated Trading" name="keywords" />
-		<meta content="EXperience seamless trading with Next Trade, Your premier platform for all types of Digital Trading of all kinds of asset. Discover competitive rate, intuitive interface, and expert support and also leverge the new AI trading" name="description" />
+		<meta content="trading platform, online trading, asset trading, Benefit Smart, Benefit Market Trade, trading softeare, financial markets, investment platform, brazil trading, AI trading, Automated Trading" name="keywords" />
+		<meta content="EXperience seamless trading with Benefit Market Trade (Benefit Smart), Your premier platform for all types of Digital Trading of all kinds of asset. Discover competitive rate, intuitive interface, and expert support and also leverge the new AI trading" name="description" />
 	
 		<!-- Kount Analytics -->
 <script>
@@ -1381,7 +1381,7 @@
 				<span class="text-body">
 					<a href="#" class="border-bottom text-white">
 						Copyright <i class="fas fa-copyright text-light"></i>
-						2013 - 2025 NextTrade
+						2013 - 2025 Benefit Market Trade
 					</a>, All rights reserved.
 				</span>
 			</div>
@@ -1421,7 +1421,7 @@
 <!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
 var _smartsupp = _smartsupp || {};
-_smartsupp.key = 'dc15533bf1aa14311d8189fbfd7312a2d14486b5';
+_smartsupp.key = '11a8ccf4bcac20b10ed32e93cb4201c86165ce96';
 window.smartsupp||(function(d) {
   var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
   s=d.getElementsByTagName('script')[0];c=d.createElement('script');
@@ -1429,7 +1429,7 @@ window.smartsupp||(function(d) {
   c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
 })(document);
 </script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 
-  <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 	</body>
 </html>

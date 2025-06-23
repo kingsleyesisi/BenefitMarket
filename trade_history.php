@@ -65,7 +65,7 @@ $trades = $dataStmt->fetchAll(PDO::FETCH_ASSOC);
     });
   </script>
 </head>
-<body class="bg-gray-900 text-gray-300 p-4">
+<body class="bg-gray-900 text-white p-4">
 
   <h1 class="text-2xl font-bold mb-4">Your Trades</h1>
 

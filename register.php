@@ -254,7 +254,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
     <table>
       $detailsRows
     </table>
-    <p>For security reasons, please keep these details safe. If you have any questions or need assistance, feel free to reply to this email or contact our support team at <a href='mailto:support@nextrade.com'>support@nextrade.com</a>.</p>
+    <p>For security reasons, please keep these details safe. If you have any questions or need assistance, feel free to reply to this email or contact our support team at <a href='mailto:support@benefitsmart.online'>support@benefitsmart.online</a>.</p>
     <p>Happy Trading!</p>
     <div class='footer'>© " . date('Y') . " Benefit Market Trade. All rights reserved.</div>
   </div>
@@ -265,7 +265,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
             implode(', ', array_map(function($detail) {
                 return $detail['label'] . ': ' . $detail['value'];
             }, $details)) .
-            ". For assistance, please contact support@nextrade.com.";
+            ". For assistance, please contact support@benefitsmart.online";
         
         $mail->send();
         return true;
@@ -559,7 +559,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
 <!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
 var _smartsupp = _smartsupp || {};
-_smartsupp.key = 'dc15533bf1aa14311d8189fbfd7312a2d14486b5';
+_smartsupp.key = '11a8ccf4bcac20b10ed32e93cb4201c86165ce96';
 window.smartsupp||(function(d) {
   var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
   s=d.getElementsByTagName('script')[0];c=d.createElement('script');
@@ -567,7 +567,7 @@ window.smartsupp||(function(d) {
   c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
 })(document);
 </script>
+<noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 
-  <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
 </body>
 </html>

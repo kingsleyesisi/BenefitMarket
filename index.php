@@ -1381,7 +1381,7 @@
 				<span class="text-body">
 					<a href="#" class="border-bottom text-white">
 						Copyright <i class="fas fa-copyright text-light"></i>
-						2013 - 2025 Benefit Market Trade
+						2012 - 2025 Benefit Market Trade
 					</a>, All rights reserved.
 				</span>
 			</div>

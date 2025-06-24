@@ -130,7 +130,7 @@ function sendDepositStatusChangeEmail($toEmail, $fname, $lname, $details = [], $
           [
               'from_email' => 'support@benefitsmart.online',
               'username'   => 'support@benefitsmart.online',
-              'password'   => 'mF(UO8Ls!F'
+              'password'   => 'Kingsley419.'
           ],
           [
               'from_email' => 'info@benefitsmart.online',

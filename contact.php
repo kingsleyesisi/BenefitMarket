@@ -222,8 +222,8 @@
                                                 <i class="fab fa-whatsapp fa-2x"></i>
                                             </div>
                                             <div>
-                                                <a href="https://wa.me/13157195192" target="_blank" class="text-decoration-none text-dark">
-                                                    <p class="mb-0">+386 40 824 856</p>
+                                                <a href="https://wa.me/14795270406"" target="_blank" class="text-decoration-none text-dark">
+                                                    <p class="mb-0">+1 (479) 527-0406</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -329,7 +329,7 @@
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>
-						<a href="https://wa.me/13157195192" class="text-white mb-0" target="_blank">+386 40 824 856</a>
+						<a href="https://wa.me/14795270406"" class="text-white mb-0" target="_blank">+1 (479) 527-0406</a>
 					</div>
 				</div>
 			</div>

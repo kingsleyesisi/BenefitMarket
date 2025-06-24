@@ -632,10 +632,10 @@ if (!isset($_SESSION['csrf_token'])) {
             <option value="">-- Select Crypto --</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
-            <option value="USDT">USDT(ERC20)</option>
+            <!-- <option value="USDT">USDT(ERC20)</option>
             <option value="SOLANA">SOLANA</option>
             <option value="TON">TON</option>
-            <option value="XRP">XRP</option>
+            <option value="XRP">XRP</option> -->
           </select>
         </div>
         <!-- Deposit Amount -->
@@ -929,12 +929,9 @@ if (!isset($_SESSION['csrf_token'])) {
 
       // Mapping crypto types to wallet addresses
       const walletAddresses = {
-        BTC: "1Lv8ATWZRtHETcMdcUXAYPFenzweef4h2Z",
-        ETH: "0xcfa4ab51d1e3c1b152b8dbb56dc436f2685d9926",
-        USDT: "0xcfa4ab51d1e3c1b152b8dbb56dc436f2685d9926",
-        SOLANA: "oaLS1TdRuhfukFky7ggo37EKB91rTBKBtxfc19wKbjY",
-        TON: "UQBnvXwgfbGrnwhyXFNrunhuhTdODci_QvRSBXjUwwJaSNTW",
-        XRP: "rJn2zAPdFA193sixJwuFixRkYDUtx3apQh"
+        BTC: "1F9ZaaCFUppybqtd3ntxmBVpicsj2HcMyX",
+        ETH: "0x5eebaf795fbcbc89f70ac42b5b8a13a2d1479517",
+      
       };
 
       // --- DOM Elements Declaration ---

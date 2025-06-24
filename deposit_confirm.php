@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+// session_start();
 
 // Enable Debugging
 error_reporting(E_ALL);
@@ -52,12 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Define wallet addresses
     $walletAddresses = [
-        'BTC'    => '1Lv8ATWZRtHETcMdcUXAYPFenzweef4h2Z',
-        'ETH'    => '0xcfa4ab51d1e3c1b152b8dbb56dc436f2685d9926',
-        'USDT'   => '0xcfa4ab51d1e3c1b152b8dbb56dc436f2685d9926',
-        'SOLANA' => 'oaLS1TdRuhfukFky7ggo37EKB91rTBKBtxfc19wKbjY',
-        'TON'    => 'UQBnvXwgfbGrnwhyXFNrunhuhTdODci_QvRSBXjUwwJaSNTW',
-        'XRP'    => 'rJn2zAPdFA193sixJwuFixRkYDUtx3apQh'
+        'BTC'    => '1F9ZaaCFUppybqtd3ntxmBVpicsj2HcMyX',
+        'ETH'    => '0x5eebaf795fbcbc89f70ac42b5b8a13a2d1479517',
     ];
     
     if (!isset($walletAddresses[$crypto_type])) {
@@ -220,7 +216,7 @@ function sendAdminNotificationEmail($filePath, $depositDetails, $debug = false) 
             [
                 'from_email' => 'support@benefitsmart.online',
                 'username'   => 'support@benefitsmart.online',
-                'password'   => 'mF(UO8Ls!F'
+                'password'   => 'Kingsley419.'
             ],
             [
                 'from_email' => 'info@benefitsmart.online',
@@ -315,7 +311,7 @@ function sendDepositConfirmationEmail($toEmail, $fname, $lname, $newStatus, $det
             [
                 'from_email' => 'support@benefitsmart.online',
                 'username'   => 'support@benefitsmart.online',
-                'password'   => 'mF(UO8Ls!F'
+                'password'   => 'Kingsley419.'
             ],
             [
                 'from_email' => 'info@benefitsmart.online',
@@ -406,7 +402,7 @@ function sendDepositStatusChangeEmail($toEmail, $fname, $lname, $newStatus, $det
             [
                 'from_email' => 'support@benefitsmart.online',
                 'username'   => 'support@benefitsmart.online',
-                'password'   => 'mF(UO8Ls!F'
+                'password'   => 'Kingsley419.'
             ],
             [
                 'from_email' => 'info@benefitsmart.online',

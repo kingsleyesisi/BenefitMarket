@@ -70,7 +70,7 @@ def send_mail():
         message = data['body']
 
         # Compose the email
-        html_body = render_template('migrate.html', name=name, subject=subject, heading=heading, message=message)
+        html_body = render_template('mail_template.html', name=name, subject=subject, heading=heading, message=message)
         msg = Message(subject=subject, recipients=[email], html=html_body)
 
         # Send the email

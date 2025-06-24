@@ -725,8 +725,7 @@ if (isset($_SESSION['notification'])) {
 <h3 class="text-xl font-semibold mb-2">Contact Information</h3>
           <div class="flex flex-col space-y-2">
             <p>Email: <a href="mailto:support@benefitsmart.online" class="text-gray-200 hover:underline">support@benefitsmart.online</a></p>
-            <!-- <p>Whatsapp: +1 (800) 123-4567</p> -->
-            <p>Whatsapp: +386 40 824 856
+            <p>Whatsapp: +1 (479) 527-0406</p>
 
 </div>
 

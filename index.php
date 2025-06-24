@@ -1364,7 +1364,7 @@
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>
-						<a href="https://wa.me/38640824856" class="text-white mb-0" target="_blank">+386 (40) 824-856</a>
+						<a href="https://wa.me/14795270406" class="text-white mb-0" target="_blank">+1 (479) 527-0406</a>
 					</div>
 				</div>
 			</div>

@@ -171,7 +171,7 @@ $stmt_activity = null;
     
     <!-- send mail -->
     <li>
-      <a target="_blank" href="https://send-mail-3mjy.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+      <a target="_blank" href="https://benefitmail.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-mail-line text-xl"></i>
         <span class="ml-2">Send Mail</span>
       </a>

@@ -22,7 +22,7 @@ if (empty($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'user') {
 // Function to generate a unique 8-digit trade ID
 function generateUniqueTradeId(PDO $conn): int {
     do {
-        $trade_id = random_int(10000000, 99999999);
+        $trade_id = random_int(10000000, 12999999);
         $stmt     = $conn->prepare("SELECT 1 FROM trades WHERE trade_id = ?");
         $stmt->execute([$trade_id]);
         $exists   = (bool) $stmt->fetchColumn();

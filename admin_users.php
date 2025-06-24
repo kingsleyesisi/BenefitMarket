@@ -228,14 +228,14 @@ if (isset($_POST['update_trading_bot'])) {
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
-      <!-- Verifications Link -->
-      <!-- <li>
-        <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-          <i class="ri-checkbox-circle-line text-xl"></i>
-          <span class="ml-2">Verifications</span>
-        </a>
-      </li>
-    </ul> -->
+     <!-- send mail -->
+    <li>
+      <a target="_blank" href="https://benefitmail.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+        <i class="ri-mail-line text-xl"></i>
+        <span class="ml-2">Send Mail</span>
+      </a>
+    </li>
+    </ul>
     <br>
     <ul class="logout-mode">
       <li>

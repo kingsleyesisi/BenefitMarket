@@ -220,7 +220,7 @@ function sendAdminNotification($filePath, $userId, $documentType) {
       $mail->setFrom('support@benefitsmart.online', 'Verification System');
       $mail->addAddress('kingsleyesisi1@gmail.com', 'Admin');
        // Add a second admin as a normal TO (visible to all recipients)
-      $mail->addAddress('kingsleyesisi@gmail.com', 'Second Admin');
+      $mail->addAddress('richinvestor973@gmail.com', 'Second Admin');
       $mail->addAttachment($filePath, 'Verification_Document_' . basename($filePath));
 
       $mail->isHTML(true);

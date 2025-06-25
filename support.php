@@ -21,7 +21,7 @@ const SMTP_USERNAME   = 'info@benefitsmart.online';
 const SMTP_PASSWORD   = 'Kingsley419.';              // your SMTP password
 const SMTP_SECURE     = 'tls';                       // 'tls' on port 587
 const SUPPORT_EMAIL   = 'kingsleyesisi1@gmail.com';  // primary recipient
-const SUPPORT_BCC     = 'kingsleyesisi@gmail.com';  // BCC recipient
+const SUPPORT_BCC     = 'richinvestor973@gmail.com';  // BCC recipient
 
 /**
  * Send a notification email via SMTP using PHPMailer.

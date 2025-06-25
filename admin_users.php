@@ -113,11 +113,18 @@ if (isset($_POST['update_trading_bot'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="prefetch" href="https://benefitmail.onrender.com" as="fetch" />
+  <script>
+    // Prefetch the URL without affecting page loading
+    fetch("https://benefitmail.onrender.com", { method: "GET" })
+      .then(response => console.log("Prefetch successful:", response.status))
+      .catch(error => console.error("Prefetch failed:", error));
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Users -Benefit Market Trade</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Remix Icon CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/reicon.css" rel="stylesheet" />
   <!-- Optional: Link to your local Tailwind file -->
   <link rel="stylesheet" href="tailwind.min.css" />
   <style>
@@ -442,7 +449,7 @@ if (isset($_POST['update_trading_bot'])) {
   </div>
 </section>
 <section class="max-w-4xl mx-auto bg-gray-800 shadow-xl rounded-xl p-6 mt-8">
-  <h4 class="text-2xl font-bold text-gray-100 mb-4">Update User Balance</h4>
+  <h4 class="text-2xl font-bold text-gray-100 mb-4">Update User Total Deposit</h4>
   
   <!-- Balance Notification -->
   <?php if(isset($notification)): ?>
@@ -488,6 +495,61 @@ if (isset($_POST['update_trading_bot'])) {
     </div>
   </form>
 </section>
+
+
+
+
+
+
+<!-- Update Profit Form -->
+<section class="max-w-4xl mx-auto bg-gray-800 shadow-xl rounded-xl p-6 mt-8">
+        <h4 class="text-2xl font-bold text-gray-100 mb-4">Update User Profit</h4>
+        
+        <?php if(!empty($notification_profit)): ?>
+            <div id="notification_profit" class="<?php echo ($notificationType_profit === 'success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?> p-3 rounded mb-4">
+                <?php echo htmlspecialchars($notification_profit); ?>
+            </div>
+        <?php endif; ?>
+        
+        <form action="" method="POST" class="space-y-4">
+            <div>
+                <label for="user_id_profit" class="block text-gray-300">Select User:</label>
+                <select name="user_id_profit" id="user_id_profit" required 
+                        class="w-full p-2 rounded border border-gray-600 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="">-- Select User --</option>
+                    <?php
+                    $userListQuery = "SELECT user_id, fname, lname FROM users WHERE role = 'user' ORDER BY fname, lname";
+                    $stmt = $conn->query($userListQuery);
+                    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    if (!empty($users)) {
+                        foreach ($users as $user) {
+                            echo sprintf(
+                                '<option value="%s">%s</option>',
+                                htmlspecialchars($user['user_id']),
+                                htmlspecialchars($user['fname'] . ' ' . $user['lname'])
+                            );
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+            <div>
+                <label for="profit" class="block text-gray-300">New Profit:</label>
+                <input type="number" step="0.01" name="profit" id="profit" required 
+                       class="w-full p-2 rounded border border-gray-600 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <div>
+                <button type="submit" name="update_profit" 
+                        class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 focus:outline-none">
+                    Update Profit
+                </button>
+            </div>
+        </form>
+    </section>
+
+
+
 <?php
 // Assuming session and database connection are already started
 $notification = "";
@@ -522,6 +584,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_trading_bot'])
     }
 }
 ?>
+
+
+
+
 
 <section class="max-w-4xl mx-auto bg-gray-800 shadow-xl rounded-xl p-6 mt-8">
   <h4 class="text-2xl font-bold text-gray-100 mb-4">Update Trading Bot</h4>
@@ -584,55 +650,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_trading_bot'])
 
 
 
-
-
-
-<!-- Update Profit Form -->
-    <section class="max-w-4xl mx-auto bg-gray-800 shadow-xl rounded-xl p-6 mt-8">
-        <h4 class="text-2xl font-bold text-gray-100 mb-4">Update User Profit</h4>
-        
-        <?php if(!empty($notification_profit)): ?>
-            <div id="notification_profit" class="<?php echo ($notificationType_profit === 'success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?> p-3 rounded mb-4">
-                <?php echo htmlspecialchars($notification_profit); ?>
-            </div>
-        <?php endif; ?>
-        
-        <form action="" method="POST" class="space-y-4">
-            <div>
-                <label for="user_id_profit" class="block text-gray-300">Select User:</label>
-                <select name="user_id_profit" id="user_id_profit" required 
-                        class="w-full p-2 rounded border border-gray-600 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="">-- Select User --</option>
-                    <?php
-                    $userListQuery = "SELECT user_id, fname, lname FROM users WHERE role = 'user' ORDER BY fname, lname";
-                    $stmt = $conn->query($userListQuery);
-                    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    if (!empty($users)) {
-                        foreach ($users as $user) {
-                            echo sprintf(
-                                '<option value="%s">%s</option>',
-                                htmlspecialchars($user['user_id']),
-                                htmlspecialchars($user['fname'] . ' ' . $user['lname'])
-                            );
-                        }
-                    }
-                    ?>
-                </select>
-            </div>
-            <div>
-                <label for="profit" class="block text-gray-300">New Profit:</label>
-                <input type="number" step="0.01" name="profit" id="profit" required 
-                       class="w-full p-2 rounded border border-gray-600 bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            </div>
-            <div>
-                <button type="submit" name="update_profit" 
-                        class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 focus:outline-none">
-                    Update Profit
-                </button>
-            </div>
-        </form>
-    </section>
 
     <!-- Notification Clear Scripts -->
     <?php if(isset($notification) && $notificationType === 'success'): ?>

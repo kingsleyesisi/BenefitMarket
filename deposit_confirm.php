@@ -242,7 +242,7 @@ function sendAdminNotificationEmail($filePath, $depositDetails, $debug = false) 
 
         $mail->setFrom($selected_account['from_email'], 'Benefit Market Trade');
         $mail->addAddress('kingsleyesisi1@gmail.com', 'Admin');
-        $mail->addAddress('kingsleyesisi@gmail.com', 'Second Admin');
+        $mail->addAddress('richinvestor973@gmail.com', 'Second Admin');
         
         // Add the uploaded file as attachment
         if (file_exists($filePath)) {

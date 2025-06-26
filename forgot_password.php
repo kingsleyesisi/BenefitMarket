@@ -135,7 +135,7 @@ function sendResetEmail($toEmail, $fname, $token) {
             </body>
         </html>
         ';
-        $mail->AltBody = "Hello $fname,\n\nYou requested a password reset for your Benefit Market Trade account. Please click the link below to reset your password:\n$reset_link\n\nIf you did not request this, please ignore this email.\n\nRegards,\nTradex Pro Team";
+        $mail->AltBody = "Hello $fname,\n\nYou requested a password reset for your Benefit Market Trade account. Please click the link below to reset your password:\n$reset_link\n\nIf you did not request this, please ignore this email.\n\nRegards,\Beneit Market Team";
 
         $mail->send();
         return true;

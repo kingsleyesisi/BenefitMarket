@@ -487,7 +487,7 @@ function sendDepositStatusChangeEmail($toEmail, $fname, $lname, $newStatus, $det
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deposit Confirmation - Tradex Pro</title>
+  <title>Deposit Confirmation - Beneit Smart</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">

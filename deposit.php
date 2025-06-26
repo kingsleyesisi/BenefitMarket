@@ -772,7 +772,8 @@ if (!isset($_SESSION['csrf_token'])) {
     <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
       <strong>NOTE - WARNING</strong>
       <p>
-        This is to inform all clients not to make payment to any account outside Tradex Pro, as we will not be held responsible for any loss. If you have any difficulty making use of any payment medium, please contact our customer care service via
+        This is to inform all clients not to make payment to any account/Wallet outside 
+        Benefit Market Trade, as we will not be held responsible for any loss. If you have any difficulty making use of any payment medium, please contact our customer care service via
         <a href="mailto:support@benefitsmart.online" class="text-blue-400">support@benefitsmart.online</a> or contact the live chat for assistance.
       </p>
     </div>

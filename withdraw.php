@@ -6,6 +6,12 @@ include_once 'config.php';  // provides $conn (PDO) to Neon Postgres
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+
+
+// Your ExchangeRate-API key
+define('FX_API_KEY', '98c2c6e024e9d0446a5c3c59');
+
+
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -39,114 +45,236 @@ try {
     die("Balance check error: " . $e->getMessage());
 }
 
+
+try {
+  // Get user data
+  $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = :user_id");
+  $stmt->execute([':user_id' => $_SESSION['user_id']]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // Pull fields out
+  $userId          = $row['user_id'];
+  $account_id      = $row['account_id']       ?? 0;
+  $usd_balance     = $row['usd_balance']      ?? 0.0;
+  $profit          = $row['profit']           ?? 0.0;
+  $account_type    = $row['account_type']     ?? 'Standard';
+  $userCurrency    = $row['currency']         ?? 'USD';
+  $tradingBotStatus= $row['trading_bot']      ?? '';
+
+  // 2) Get (and cache) live USD→userCurrency rate
+  function getFxRate($base, $target, $apiKey, $cacheDir = '/tmp', $ttl = 1800) {
+      $cacheFile = "{$cacheDir}/fx_{$base}_{$target}.json";
+      // serve from cache if still fresh
+      if (file_exists($cacheFile) && time() - filemtime($cacheFile) < $ttl) {
+          $j = file_get_contents($cacheFile);
+      } else {
+          $url = "https://v6.exchangerate-api.com/v6/{$apiKey}/pair/{$base}/{$target}";
+          $ch = curl_init($url);
+          curl_setopt_array($ch, [
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_TIMEOUT        => 5,
+              CURLOPT_FAILONERROR    => true,
+          ]);
+          $j = curl_exec($ch);
+          if (!$j) {
+              // on failure, fall back to cache if exists, else return 1.0
+              if (file_exists($cacheFile)) {
+                  $j = file_get_contents($cacheFile);
+              } else {
+                  return 1.0;
+              }
+          }
+          curl_close($ch);
+          file_put_contents($cacheFile, $j);
+      }
+
+      $data = json_decode($j, true);
+      if (isset($data['conversion_rate'])) {
+          return (float)$data['conversion_rate'];
+      }
+      return 1.0;
+  }
+
+  $fxRate = getFxRate('USD', $userCurrency, FX_API_KEY);
+
+  // 3) Format helper
+  function formatFx($usdAmount, $rate, $currency) {
+      return number_format($usdAmount * $rate, 2) . " {$currency}";
+  }
+
+  // 4) Gather dashboard metrics
+  // Total Trades
+  $stmt = $conn->prepare("SELECT COUNT(*) FROM trades WHERE user_id = :user_id");
+  $stmt->execute([':user_id' => $userId]);
+  $totalTrades = $stmt->fetchColumn() ?? 0;
+
+  // Verification Status
+  $stmt = $conn->prepare("
+      SELECT status FROM verification 
+      WHERE user_id = :user_id 
+      ORDER BY id DESC LIMIT 1
+  ");
+  $stmt->execute([':user_id' => $userId]);
+  $verificationStatus = $stmt->fetch(PDO::FETCH_ASSOC)['status'] ?? 'UNVERIFIED';
+
+  // Total Withdrawal
+  $stmt = $conn->prepare("
+      SELECT COALESCE(SUM(amount), 0) 
+      FROM withdrawals 
+      WHERE user_id = $1 
+      AND status = 'Approved'
+  ");
+  $stmt->execute([$userId]);
+  $totalWithdrawal = $stmt->fetchColumn() ?? 0;
+
+  // Total Traded Amount
+  $stmt = $conn->prepare("
+      SELECT COALESCE(SUM(amount),0) 
+      FROM trades 
+      WHERE user_id = :user_id
+  ");
+  $stmt->execute([':user_id' => $userId]);
+  $totalAmount = $stmt->fetchColumn() ?? 0;
+
+  // Wins & Losses
+  $stmt = $conn->prepare("
+      SELECT COUNT(*) 
+      FROM trades 
+      WHERE user_id = :user_id 
+      AND trading_results = 'win'
+  ");
+  $stmt->execute([':user_id' => $userId]);
+  $totalWins = $stmt->fetchColumn() ?? 0;
+
+  $stmt = $conn->prepare("
+      SELECT COUNT(*) 
+      FROM trades 
+      WHERE user_id = :user_id 
+      AND trading_results = 'loss'
+  ");
+  $stmt->execute([':user_id' => $userId]);
+  $totalLosses = $stmt->fetchColumn() ?? 0;
+
+} catch (PDOException $e) {
+  die("Database error: " . $e->getMessage());
+}
+
 // Process the final withdrawal submission (after modal confirmation)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
-    // Validate CSRF token
-    if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token.");
+  // Validate CSRF token
+  if (empty($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("Invalid CSRF token.");
+  }
+
+  $crypto_type = $_POST['crypto_type'];
+  $amount      = floatval($_POST['amount']);
+
+  // Convert the amount from user currency to USD
+  $amountInUSD = $amount / $fxRate;
+
+  // Check if the user has sufficient USD balance
+  if ($amountInUSD > $usd_balance) {
+    die("Insufficient USD balance for this withdrawal.");
+  }
+
+  // For non-bank withdrawals, check that a wallet address is provided.
+  if ($crypto_type !== "BANK") {
+    $wallet_address = trim($_POST['wallet_address']);
+    if ($wallet_address === "") {
+      die("Wallet address is required for crypto withdrawals.");
+    }
+  }
+
+  // Generate a random withdrawal ID with 8 to 10 digits
+  $withdrawal_id = random_int(10000000, 2147483647);
+
+  try {
+    // Build the INSERT statement and parameters
+    if ($crypto_type === "BANK") {
+      $bank_name      = trim($_POST['bank_name']);
+      $account_number = trim($_POST['account_number']);
+      $routing_number = trim($_POST['routing_number']);
+
+      $sql = "
+        INSERT INTO withdrawals
+          (withdrawal_id, user_id, crypto_type, amount, wallet_address, status, bank_name, account_number, routing_number)
+        VALUES
+          (:wid, :uid, :ctype, :amt, '', 'pending', :bname, :acct, :rout)
+      ";
+      $params = [
+        ':wid'   => $withdrawal_id,
+        ':uid'   => $user_id,
+        ':ctype' => $crypto_type,
+        ':amt'   => $amount,
+        ':bname' => $bank_name,
+        ':acct'  => $account_number,
+        ':rout'  => $routing_number,
+      ];
+    } else {
+      // Crypto withdrawal
+      $wallet_address = trim($_POST['wallet_address']);
+
+      $sql = "
+        INSERT INTO withdrawals
+          (withdrawal_id, user_id, crypto_type, amount, wallet_address, status, bank_name, account_number, routing_number)
+        VALUES
+          (:wid, :uid, :ctype, :amt, :waddr, 'pending', '', '', '')
+      ";
+      $params = [
+        ':wid'   => $withdrawal_id,
+        ':uid'   => $user_id,
+        ':ctype' => $crypto_type,
+        ':amt'   => $amount,
+        ':waddr' => $wallet_address,
+      ];
     }
 
-    $crypto_type = $_POST['crypto_type'];
-    $amount      = floatval($_POST['amount']);
+    // Execute the INSERT
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
 
-    // Check if the user has sufficient USD balance
-    if ($amount > $usd_balance) {
-        die("Insufficient USD balance for this withdrawal.");
+    if ($stmt->rowCount() > 0) {
+      // Deduct the withdrawal amount from the user's balance
+      $updateBalanceSql = "UPDATE users SET usd_balance = usd_balance - :amt WHERE user_id = :uid";
+      $updateStmt = $conn->prepare($updateBalanceSql);
+      $updateStmt->execute([':amt' => $amountInUSD, ':uid' => $user_id]);
+
+      header("Location: withdraw_thankyou.php");
+      exit();
+    } else {
+      $message = "Failed to submit withdrawal request.";
     }
 
-    // For non-bank withdrawals, check that a wallet address is provided.
-    if ($crypto_type !== "BANK") {
-        $wallet_address = trim($_POST['wallet_address']);
-        if ($wallet_address === "") {
-            die("Wallet address is required for crypto withdrawals.");
-        }
-    }
-
-    // Generate a random withdrawal ID with 8 to 10 digits
-    $withdrawal_id = random_int(10000000, 2147483647);
-
-    try {
-        // Build the INSERT statement and parameters
-        if ($crypto_type === "BANK") {
-            $bank_name      = trim($_POST['bank_name']);
-            $account_number = trim($_POST['account_number']);
-            $routing_number = trim($_POST['routing_number']);
-
-            $sql = "
-                INSERT INTO withdrawals
-                  (withdrawal_id, user_id, crypto_type, amount, wallet_address, status, bank_name, account_number, routing_number)
-                VALUES
-                  (:wid, :uid, :ctype, :amt, '', 'pending', :bname, :acct, :rout)
-            ";
-            $params = [
-                ':wid'   => $withdrawal_id,
-                ':uid'   => $user_id,
-                ':ctype' => $crypto_type,
-                ':amt'   => $amount,
-                ':bname' => $bank_name,
-                ':acct'  => $account_number,
-                ':rout'  => $routing_number,
-            ];
-        } else {
-            // Crypto withdrawal
-            $wallet_address = trim($_POST['wallet_address']);
-
-            $sql = "
-                INSERT INTO withdrawals
-                  (withdrawal_id, user_id, crypto_type, amount, wallet_address, status, bank_name, account_number, routing_number)
-                VALUES
-                  (:wid, :uid, :ctype, :amt, :waddr, 'pending', '', '', '')
-            ";
-            $params = [
-                ':wid'   => $withdrawal_id,
-                ':uid'   => $user_id,
-                ':ctype' => $crypto_type,
-                ':amt'   => $amount,
-                ':waddr' => $wallet_address,
-            ];
-        }
-
-        // Execute the INSERT
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($params);
-
-        if ($stmt->rowCount() > 0) {
-            header("Location: withdraw_thankyou.php");
-            exit();
-        } else {
-            $message = "Failed to submit withdrawal request.";
-        }
-
-    } catch (Exception $e) {
-        die("Withdrawal error: " . $e->getMessage());
-    }
+  } catch (Exception $e) {
+    die("Withdrawal error: " . $e->getMessage());
+  }
 }
 
 // Retrieve withdrawal history for this user
 try {
-    $withdrawals = [];
-    $historySql = "
-        SELECT
-          withdrawal_id,
-          user_id,
-          crypto_type,
-          amount,
-          wallet_address,
-          status,
-          created_at,
-          bank_name,
-          account_number,
-          routing_number
-        FROM withdrawals
-        WHERE user_id = :uid
-        ORDER BY created_at DESC
-    ";
-    $stmt = $conn->prepare($historySql);
-    $stmt->execute([':uid' => $user_id]);
-    $withdrawals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $withdrawals = [];
+  $historySql = "
+    SELECT
+      withdrawal_id,
+      user_id,
+      crypto_type,
+      amount,
+      wallet_address,
+      status,
+      created_at,
+      bank_name,
+      account_number,
+      routing_number
+    FROM withdrawals
+    WHERE user_id = :uid
+    ORDER BY created_at DESC
+  ";
+  $stmt = $conn->prepare($historySql);
+  $stmt->execute([':uid' => $user_id]);
+  $withdrawals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (Exception $e) {
-    die("History fetch error: " . $e->getMessage());
+  die("History fetch error: " . $e->getMessage());
 }
 ?>
 
@@ -822,7 +950,11 @@ try {
             </div>
             <!-- Amount -->
             <div class="mb-4">
-              <label for="amount" class="block text-white mb-1">Amount ($):</label>
+                <label for="amount" class="block text-white mb-1">Amount:</label>
+                <div class="flex items-center justify-between">
+                  <span class="text-white">User Balance:</span>
+                  <span class="text-green-400">$<?= formatFx($usd_balance, $fxRate, $userCurrency) ?></span>
+                </div>
               <input type="text" name="amount" id="amount" placeholder="Enter amount" class="w-full p-2 text-white bg-gray-700 rounded" required>
             </div>
             <!-- Wallet Address for Crypto Withdrawal -->

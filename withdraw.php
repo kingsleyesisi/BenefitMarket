@@ -55,8 +55,7 @@ try {
   // Pull fields out
   $userId          = $row['user_id'];
   $account_id      = $row['account_id']       ?? 0;
-  $usd_balance     = $row['usd_balance']      ?? 0.0;
-  $profit          = $row['profit']           ?? 0.0;
+  $usd_balance     = $row['profit']      ?? 0.0;
   $account_type    = $row['account_type']     ?? 'Standard';
   $userCurrency    = $row['currency']         ?? 'USD';
   $tradingBotStatus= $row['trading_bot']      ?? '';
@@ -235,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
 
     if ($stmt->rowCount() > 0) {
       // Deduct the withdrawal amount from the user's balance
-      $updateBalanceSql = "UPDATE users SET usd_balance = usd_balance - :amt WHERE user_id = :uid";
+      $updateBalanceSql = "UPDATE users SET profit = profit - :amt WHERE user_id = :uid";
       $updateStmt = $conn->prepare($updateBalanceSql);
       $updateStmt->execute([':amt' => $amountInUSD, ':uid' => $user_id]);
 

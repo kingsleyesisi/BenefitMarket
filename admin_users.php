@@ -113,10 +113,10 @@ if (isset($_POST['update_trading_bot'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="prefetch" href="https://benefitmail.onrender.com" as="fetch" />
+  <link rel="prefetch" href="https://benefitmail-6e2i.onrender.com" as="fetch" />
   <script>
     // Prefetch the URL without affecting page loading
-    fetch("https://benefitmail.onrender.com", { method: "GET" })
+    fetch("https://benefitmail-6e2i.onrender.com, { method: "GET" })
       .then(response => console.log("Prefetch successful:", response.status))
       .catch(error => console.error("Prefetch failed:", error));
   </script>
@@ -237,7 +237,7 @@ if (isset($_POST['update_trading_bot'])) {
       </li>
      <!-- send mail -->
     <li>
-      <a target="_blank" href="https://benefitmail.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+      <a target="_blank" href="https://benefitmail-6e2i.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-mail-line text-xl"></i>
         <span class="ml-2">Send Mail</span>
       </a>

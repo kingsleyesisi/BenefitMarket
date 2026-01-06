@@ -672,7 +672,6 @@ button {
                             <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-1">
                                 <?php echo htmlspecialchars($row['fname'] . ' ' . $row['lname']); ?>
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-3"><?php echo htmlspecialchars($row['email']); ?></p>
                             <div class="space-y-2">
                                 <div class="flex justify-between text-sm">
                                     <span class="text-slate-500 dark:text-slate-400">Member since:</span>

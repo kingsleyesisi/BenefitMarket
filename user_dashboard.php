@@ -644,12 +644,12 @@ button {
                 <div class="gradient-bg rounded-2xl p-6 lg:p-8 text-white">
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                         <div class="mb-4 lg:mb-0">
-                            <h2 class="text-2xl lg:text-3xl font-bold mb-2">Welcome back, <?php echo htmlspecialchars($row['fname']); ?>!</h2>
+                            <h2 class="text-2xl lg:text-3xl font-bold mb-2">Welcome, <?php echo htmlspecialchars($row['fname']); ?> <?php echo htmlspecialchars($row['lname']); ?>!</h2>
                             <p class="text-white/80">Here's what's happening with your trading account today.</p>
                         </div>
                         <div class="flex items-center space-x-4">
                             <div class="text-right">
-                              <p class="text-white/80 text-sm">Net Worth</p>
+                              <p class="text-white/80 text-sm">Account Balance</p>
                               <p class="text-2xl font-bold"><?= formatFx($usd_balance + $profit, $fxRate, $userCurrency) ?></p>
                             </div>
                             <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">

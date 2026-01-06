@@ -15,9 +15,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // ——— SMTP & support settings ———
-const SMTP_HOST       = 'mail.benefitsmart.online';     // your cPanel mail host
+const SMTP_HOST       = 'mail.benefitsmart.xyz';     // your cPanel mail host
 const SMTP_PORT       = 587;
-const SMTP_USERNAME   = 'info@benefitsmart.online';
+const SMTP_USERNAME   = 'info@benefitsmart.xyz';
 const SMTP_PASSWORD   = 'Kingsley419.';              // your SMTP password
 const SMTP_SECURE     = 'tls';                       // 'tls' on port 587
 const SUPPORT_EMAIL   = 'kingsleyesisi1@gmail.com';  // primary recipient
@@ -724,7 +724,7 @@ if (isset($_SESSION['notification'])) {
 
 <h3 class="text-xl font-semibold mb-2">Contact Information</h3>
           <div class="flex flex-col space-y-2">
-            <p>Email: <a href="mailto:support@benefitsmart.online" class="text-gray-200 hover:underline">support@benefitsmart.online</a></p>
+            <p>Email: <a href="mailto:support@benefitsmart.xyz" class="text-gray-200 hover:underline">support@benefitsmart.xyz</a></p>
             <p>Whatsapp: +1 (479) 527-0406</p>
 
 </div>

@@ -33,7 +33,7 @@ function sendTradeConfirmationEmail($toEmail, $toName, $tradeId, $tradeDetails) 
         $mail->Port       = 587;                                    // TCP port to connect to
 
         // Recipients
-        $mail->setFrom('support@benefitsmart.online', 'Benefit Market Trade');
+        $mail->setFrom('support@benefitsmart.xyz', 'Benefit Market Trade');
         $mail->addAddress($toEmail, $toName);                       // Add a recipient
 
         // Content

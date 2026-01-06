@@ -40,14 +40,14 @@ function sendTradeConfirmationEmail($toEmail, $toName, $tradeId, $trade_category
         $mail->SMTPDebug   = 2;
         $mail->Debugoutput = 'error_log';
         $mail->isSMTP();
-        $mail->Host        = 'mail.benefitsmart.online';
+        $mail->Host        = 'mail.benefitsmart.xyz';
         $mail->SMTPAuth    = true;
-        $mail->Username    = 'info@benefitsmart.online';
+        $mail->Username    = 'info@benefitsmart.xyz';
         $mail->Password    = 'Kingsley419.';
         $mail->SMTPSecure  = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port        = 465;
 
-        $mail->setFrom('info@benefitsmart.online', 'Benefit Market Trade');
+        $mail->setFrom('info@benefitsmart.xyz', 'Benefit Market Trade');
         $mail->addAddress($toEmail, $toName);
 
         $mail->isHTML(true);

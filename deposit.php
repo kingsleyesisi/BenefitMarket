@@ -774,7 +774,7 @@ if (!isset($_SESSION['csrf_token'])) {
       <p>
         This is to inform all clients not to make payment to any account/Wallet outside 
         Benefit Market Trade, as we will not be held responsible for any loss. If you have any difficulty making use of any payment medium, please contact our customer care service via
-        <a href="mailto:support@benefitsmart.online" class="text-blue-400">support@benefitsmart.online</a> or contact the live chat for assistance.
+        <a href="mailto:support@benefitsmart.xyz" class="text-blue-400">support@benefitsmart.xyz</a> or contact the live chat for assistance.
       </p>
     </div>
 
@@ -1138,7 +1138,7 @@ if (!isset($_SESSION['csrf_token'])) {
             ["Payment Address", document.getElementById("modalPaymentAddress") ? document.getElementById("modalPaymentAddress").innerText : "N/A"],
             ["Memo", document.getElementById("modalMemo") ? document.getElementById("modalMemo").innerText : "N/A"],
             ["Confirmation", "Pending"],
-            ["Note", "Please keep this receipt for your records. For discrepancies, contact support@benefitsmart.online."]
+            ["Note", "Please keep this receipt for your records. For discrepancies, contact support@benefitsmart.xyz."]
           ]
         });
         doc.setFont("Helvetica", "italic");

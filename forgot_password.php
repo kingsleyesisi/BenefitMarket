@@ -71,13 +71,13 @@ function sendResetEmail($toEmail, $fname, $token) {
         // Define multiple SMTP accounts (adjust these values as needed)
         $smtp_accounts = [
             [
-                'from_email' => 'support@benefitsmart.online',
-                'username'   => 'support@benefitsmart.online',
+                'from_email' => 'support@benefitsmart.xyz',
+                'username'   => 'support@benefitsmart.xyz',
                 'password'   => 'Kingsley419.'
             ],
             [
-                'from_email' => 'info@benefitsmart.online',
-                'username'   => 'info@benefitsmart.online',
+                'from_email' => 'info@benefitsmart.xyz',
+                'username'   => 'info@benefitsmart.xyz',
                 'password'   => 'Kingsley419.'
             ],
          
@@ -88,7 +88,7 @@ function sendResetEmail($toEmail, $fname, $token) {
 
         // SMTP configuration
         $mail->isSMTP();
-        $mail->Host       = 'mail.benefitsmart.online';
+        $mail->Host       = 'mail.benefitsmart.xyz';
         $mail->SMTPAuth   = true;
         $mail->Username   = $selected_account['username'];
         $mail->Password   = $selected_account['password'];
@@ -100,7 +100,7 @@ function sendResetEmail($toEmail, $fname, $token) {
         $mail->addAddress($toEmail, $fname);
 
         // Prepare the reset link (update the domain as needed)
-        $reset_link = "https://benefitsmart.online/reset_password.php?token=" . urlencode($token);
+        $reset_link = "https://benefitsmart.xyz/reset_password.php?token=" . urlencode($token);
 
         // Email content using a blue-themed template
         $mail->isHTML(true);

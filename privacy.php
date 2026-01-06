@@ -456,7 +456,7 @@ data-wow-delay="0.1s"
         If you have questions or wish to exercise your rights, contact our Data Protection Officer:
       </p>
       <p class="mt-2 leading-relaxed">
-        <strong>Email:</strong> <a href="mailto:support@benefitsmart.online" class="text-primary underline">support@benefitsmart.online</a><br>
+        <strong>Email:</strong> <a href="mailto:support@benefitsmart.xyz" class="text-primary underline">support@benefitsmart.xyz</a><br>
       </p>
       <p class="mt-4 text-red-600 font-semibold">
         <strong>Important Notice:</strong> All payments must be made directly through the platform. Benefit Market Trade personnel or account managers are only authorized to guide you through the process and should never request payments to their personal accounts. 

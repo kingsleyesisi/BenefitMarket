@@ -177,13 +177,13 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
         // Define multiple SMTP accounts
         $smtp_accounts = [
           [
-              'from_email' => 'support@benefitsmart.online',
-              'username'   => 'support@benefitsmart.online',
+              'from_email' => 'support@benefitsmart.xyz',
+              'username'   => 'support@benefitsmart.xyz',
               'password'   => 'Kingsley419.'
           ],
           [
-              'from_email' => 'info@benefitsmart.online',
-              'username'   => 'info@benefitsmart.online',
+              'from_email' => 'info@benefitsmart.xyz',
+              'username'   => 'info@benefitsmart.xyz',
               'password'   => 'Kingsley419.'
           ],
        
@@ -195,7 +195,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
 
         // SMTP settings
         $mail->isSMTP();
-        $mail->Host       = 'mail.benefitsmart.online';
+        $mail->Host       = 'mail.benefitsmart.xyz';
         $mail->SMTPAuth   = true;
         $mail->Username   = $selected_account['username'];
         $mail->Password   = $selected_account['password'];
@@ -254,7 +254,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
     <table>
       $detailsRows
     </table>
-    <p>For security reasons, please keep these details safe. If you have any questions or need assistance, feel free to reply to this email or contact our support team at <a href='mailto:support@benefitsmart.online'>support@benefitsmart.online</a>.</p>
+    <p>For security reasons, please keep these details safe. If you have any questions or need assistance, feel free to reply to this email or contact our support team at <a href='mailto:support@benefitsmart.xyz'>support@benefitsmart.xyz</a>.</p>
     <p>Happy Trading!</p>
     <div class='footer'>© " . date('Y') . " Benefit Market Trade. All rights reserved.</div>
   </div>
@@ -265,7 +265,7 @@ function sendWelcomeEmail($toEmail, $fname, $lname, $details = []) {
             implode(', ', array_map(function($detail) {
                 return $detail['label'] . ': ' . $detail['value'];
             }, $details)) .
-            ". For assistance, please contact support@benefitsmart.online";
+            ". For assistance, please contact support@benefitsmart.xyz";
         
         $mail->send();
         return true;

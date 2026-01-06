@@ -1079,7 +1079,7 @@
 										If you have problems logging in, or if
 										you receive an error message during
 										registration or making deposit or withdrawing, please contact
-										support@benefitsmart.online or use the
+										support@benefitsmart.xyz or use the
 										Live Chat feature on this website.
 									</div>
 								</div>
@@ -1360,7 +1360,7 @@
 					<h4 class="text-white mb-4">Contact Info</h4>
 					<div class="d-flex align-items-center">
 						<i class="fas fa-envelope text-primary me-3"></i>
-					<a href="mailto:support@benefitsmart.online" class="text-white mb-0">support@benefitsmart.online</a>
+					<a href="mailto:support@benefitsmart.xyz" class="text-white mb-0">support@benefitsmart.xyz</a>
 					</div>
 					<div class="d-flex align-items-center">
 						<i class="fab fa-whatsapp text-primary me-3"></i>

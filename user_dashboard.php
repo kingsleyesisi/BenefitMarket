@@ -638,59 +638,31 @@ button {
         </header>
 
         <!-- Main Content -->
-        <main class="p-4 lg:p-8">
-            <!-- Welcome Section -->
-            <div class="mb-8">
-                <div class="gradient-bg rounded-2xl p-6 lg:p-8 text-white">
+<main class="p-4 lg:p-8">
+            <div class="mb-6">
+                <div class="gradient-bg rounded-2xl p-4 lg:p-5 text-white">
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                        <div class="mb-4 lg:mb-0">
-                            <h2 class="text-2xl lg:text-3xl font-bold mb-2">Welcome, <?php echo htmlspecialchars($row['fname']); ?> <?php echo htmlspecialchars($row['lname']); ?>!</h2>
-                            <p class="text-white/80">Here's what's happening with your trading account today.</p>
+                        
+                        <div class="mb-2 lg:mb-0 flex-1 min-w-0 lg:mr-4">
+                            <h2 class="text-xl lg:text-2xl font-bold mb-1 truncate" title="<?php echo htmlspecialchars($row['fname'] . ' ' . $row['lname']); ?>">
+                                Welcome, <?php echo htmlspecialchars($row['fname']); ?> <?php echo htmlspecialchars($row['lname']); ?>!
+                            </h2>
+                            <p class="text-white/80 text-sm truncate">Here's what's happening today.</p>
                         </div>
-                        <div class="flex items-center space-x-4">
+                        
+                        <div class="flex items-center space-x-3 flex-shrink-0">
                             <div class="text-right">
-                              <p class="text-white/80 text-sm">Account Balance</p>
-                              <p class="text-2xl font-bold"><?= formatFx($usd_balance + $profit, $fxRate, $userCurrency) ?></p>
+                              <p class="text-white/80 text-xs">Account Balance</p>
+                              <p class="text-xl lg:text-2xl font-bold"><?= formatFx($usd_balance + $profit, $fxRate, $userCurrency) ?></p>
                             </div>
-                            <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-                                <i class="ri-wallet-3-line text-3xl"></i>
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                                <i class="ri-wallet-3-line text-xl"></i>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
-
-            <!-- Profile & Account Summary Cards -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <!-- Profile Card -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 card-hover fade-in">
-                    <div class="flex items-start space-x-4">
-                        <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <i class="ri-user-line text-white text-2xl"></i>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-1">
-                                <?php echo htmlspecialchars($row['fname'] . ' ' . $row['lname']); ?>
-                            </h3>
-                            <div class="space-y-2">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-500 dark:text-slate-400">Member since:</span>
-                                    <span class="font-medium text-slate-700 dark:text-slate-200"><?php echo date('M Y', strtotime($row['created_at'])); ?></span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-500 dark:text-slate-400">Account Type:</span>
-                                    <span class="font-medium text-slate-700 dark:text-slate-200"><?php echo htmlspecialchars($account_type); ?></span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-500 dark:text-slate-400">Currency:</span>
-                                    <a href="/editprofile.php" class="font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-500"><?php echo htmlspecialchars($userCurrency); ?></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             <!-- Trading Metrics Grid -->
             <div class="relative mb-8">
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">

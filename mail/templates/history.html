@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email History</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <header class="bg-white shadow-sm">
+        <div class="container py-3">
+            <h1 class="text-center">Email History</h1>
+            <nav class="d-flex justify-content-center flex-wrap">
+                <a href="/" class="btn btn-primary me-2 mb-2">Home</a>
+                <a href="/send" class="btn btn-secondary mb-2">Send Email</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="no-data" class="text-center text-muted">No emails found.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center flex-wrap" id="pagination">
+                <!-- Pagination buttons will be dynamically inserted here -->
+            </ul>
+        </nav>
+    </div>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let data = []; // Data will be fetched from the backend
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        async function fetchData(page = 1) {
+            try {
+                const response = await fetch(`/api/history?page=${page}&per_page=${rowsPerPage}`);
+                const result = await response.json();
+
+                data = result.data;
+                renderTable();
+                renderPagination(result.total, result.pages, result.current_page);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            const noData = document.getElementById('no-data');
+            tableBody.innerHTML = '';
+
+            if (data.length === 0) {
+                noData.style.display = 'block';
+            } else {
+                noData.style.display = 'none';
+
+                data.forEach((item, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.name}</td>
+                            <td>${item.email}</td>
+                            <td>${item.subject}</td>
+                            <td>${item.status}</td>
+                            <td><a href="/view/${item.id}" class="btn btn-sm btn-primary">View</a></td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+        }
+
+        function renderPagination(totalItems, totalPages, currentPage) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            if (currentPage > 1) {
+                pagination.insertAdjacentHTML('beforeend', `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">&laquo;</a>
+                    </li>
+                `);
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.insertAdjacentHTML('beforeend', `
+                    <li class="page-item ${currentPage === i ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                    </li>
+                `);
+            }
+
+            if (currentPage < totalPages) {
+                pagination.insertAdjacentHTML('beforeend', `
+                    <li class="page-item">
+                        <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">&raquo;</a>
+                    </li>
+                `);
+            }
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            fetchData(page);
+        }
+
+        // Initial fetch and render
+        fetchData();
+    </script>
+</body>
+</html>

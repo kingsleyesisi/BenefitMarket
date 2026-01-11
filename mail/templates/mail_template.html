@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Benefit Market Trade</title>
+<style>
+/* Modern CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Base Styles */
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px 0;
+}
+
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+td {
+  padding: 0;
+}
+
+img {
+  border: 0;
+  max-width: 100%;
+}
+
+/* Container */
+.email-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  padding: 30px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #0b3559 0%, #1a508b 100%);
+  color: white;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #e01b24;
+  border-radius: 2px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.header span {
+  display: block;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  font-weight: 300;
+}
+
+/* Payment Banner */
+.payment-banner {
+  background-color: #f8f9fa;
+  padding: 25px 20px;
+  text-align: center;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.payment-banner h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #0b3559;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.payment-banner h2::before,
+.payment-banner h2::after {
+  content: "•";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #e01b24;
+  font-size: 18px;
+}
+
+.payment-banner h2::before {
+  left: 0;
+}
+
+.payment-banner h2::after {
+  right: 0;
+}
+
+/* Details */
+.details {
+  padding: 30px;
+}
+
+.details-content {
+  padding: 25px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #0b3559;
+}
+
+.details h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #0b3559;
+  font-weight: 600;
+}
+
+.details p {
+  margin: 15px 0;
+  font-size: 16px;
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+.details strong {
+  color: #0b3559;
+}
+
+.details a {
+  color: #0b3559;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.details a:hover {
+  color: #e01b24;
+  text-decoration: underline;
+}
+
+.signature {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.signature p {
+  margin: 5px 0;
+}
+
+/* Footer Info */
+.footer-info {
+  margin-top: 30px;
+  font-size: 15px;
+  color: #4a5568;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.footer-info a {
+  color: #0b3559;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0 3px;
+}
+
+.footer-info a:hover {
+  color: #e01b24;
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #718096;
+  background: #f1f5f9;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Visual Enhancements */
+.highlight {
+  color: #e01b24;
+  font-weight: 600;
+}
+
+.cta-button {
+  display: inline-block;
+  margin: 25px 0 15px;
+  padding: 12px 30px;
+  background: #0b3559;
+  color: white !important;
+  text-decoration: none !important;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #e01b24;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(224, 27, 36, 0.3);
+  text-decoration: none !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .header {
+    padding: 20px 15px;
+  }
+  
+  .header h1 {
+    font-size: 26px;
+  }
+  
+  .details {
+    padding: 20px 15px;
+  }
+  
+  .details-content {
+    padding: 20px;
+  }
+  
+  .payment-banner h2 {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+<body>
+<table role="presentation">
+<tr>
+<td align="center" style="padding: 20px 0;">
+<!-- Outer Container -->
+<table class="email-container">
+<!-- Header -->
+<tr>
+<td class="header">
+<h1>Benefit Market Trade</h1>
+<span>Trade Smarter, Not Harder</span>
+</td>
+</tr>
+
+<!-- Payment Banner -->
+<tr>
+<td class="payment-banner">
+<h2>{{ heading }}</h2>
+</td>
+</tr>
+
+<!-- Details -->
+<tr>
+<td class="details">
+<div class="details-content">
+<p>Dear <strong>{{ name }}</strong>,</p>
+<p>{{ message }}</p>
+<p style="line-height: 1.5; font-size: 14px; font-style: italic;">Thank you for choosing <span class="highlight">Benefits Market Trade</span> as your trusted trading partner. We look forward to supporting you on your trading journey.</p>
+
+<div class="signature">
+<p>Sincerely,</p>
+<p><strong>Benefit Market Trade Team</strong></p>
+</div>
+
+<div class="footer-info">
+<p>Happy Trading!<br />
+For any assistance, our support team is here to help:</p>
+<p><a href="mailto:support@benefitsmart.xyz">support@benefitsmart.xyz</a><br />
+  +1 (479) 527-0406</p>
+</div>
+</div>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td class="footer">
+© 2012 - 2025 Benefit Market Trade. All rights reserved.<br>
+<a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Unsubscribe</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>

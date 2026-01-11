@@ -1,0 +1,11 @@
+# Allow all web crawlers to access everything except sensitive areas
+
+User-agent: *
+Disallow: /admin_dashboard.php/
+Disallow: /login.php
+Disallow: /register.php
+Disallow: /user_dashboard.php
+
+# Allow search engines to crawl essential parts
+Allow: /blog/
+Allow: /

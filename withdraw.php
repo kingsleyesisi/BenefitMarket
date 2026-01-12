@@ -165,6 +165,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
     die("Invalid CSRF token.");
   }
 
+
+  // VALIDATE WITHDRAWAL PIN (if provided)
+  $entered_pin = trim($_POST['withdrawal_pin'] ?? '');
+  
+  // Get user's assigned PIN from database
+  try {
+    $pin_stmt = $conn->prepare("SELECT withdrawal_pin FROM users WHERE user_id = :uid");
+    $pin_stmt->execute([':uid' => $user_id]);
+    $user_pin_data = $pin_stmt->fetch(PDO::FETCH_ASSOC);
+    $assigned_pin = $user_pin_data['withdrawal_pin'] ?? null;
+    
+    // Only validate PIN if one is assigned to the user
+    if (!empty($assigned_pin)) {
+      // Check if entered PIN matches
+      if (empty($entered_pin)) {
+        $message = "<div class='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4' role='alert'>
+                      <strong class='font-bold'>PIN Required!</strong>
+                      <p class='block sm:inline'>Please enter your withdrawal PIN to proceed.</p>
+                    </div>";
+        // Don't proceed with withdrawal
+        goto skip_withdrawal;
+      }
+      
+      if ($entered_pin !== $assigned_pin) {
+        $message = "Incorrect PIN! 
+        The withdrawal PIN you entered is incorrect. Please try again or contact support.";
+        // Don't proceed with withdrawal
+        goto skip_withdrawal;
+      }
+    }
+    // If no PIN assigned, allow withdrawal to proceed (backward compatibility)
+    
+    // PIN is valid or not required, continue with withdrawal
+  } catch (Exception $e) {
+    die("PIN verification error: " . $e->getMessage());
+  }
+
   $crypto_type = $_POST['crypto_type'];
   $amount      = floatval($_POST['amount']);
 
@@ -217,7 +254,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
         INSERT INTO withdrawals
           (withdrawal_id, user_id, crypto_type, amount, wallet_address, status, bank_name, account_number, routing_number)
         VALUES
-          (:wid, :uid, :ctype, :amt, :waddr, 'pending', '', '', '')
+          (:wid, :uid, :ctype, :amt, :waddr, 'pending', :bname, :acct, :rout)
       ";
       $params = [
         ':wid'   => $withdrawal_id,
@@ -225,6 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
         ':ctype' => $crypto_type,
         ':amt'   => $amount,
         ':waddr' => $wallet_address,
+        ':bname' => '',
+        ':acct'  => '',
+        ':rout'  => '',
       ];
     }
 
@@ -247,6 +287,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['crypto_type'])) {
   } catch (Exception $e) {
     die("Withdrawal error: " . $e->getMessage());
   }
+  
+  // Label for skipping withdrawal when PIN validation fails
+  skip_withdrawal:
 }
 
 // Retrieve withdrawal history for this user
@@ -423,10 +466,30 @@ try {
           document.getElementById("withdrawModal").classList.remove("hidden");
       });
       
-      // Modal confirm button: show spinner for 3 seconds then submit the form
+      // Modal confirm button: validate PIN then submit the form
       document.getElementById("modalConfirm").addEventListener("click", function() {
+          const pinValue = document.getElementById("modal_withdrawal_pin").value;
+          const pinError = document.getElementById("pinError");
+          const pinErrorText = document.getElementById("pinErrorText");
+          
+          // Validate PIN only if entered (not required for users without assigned PIN)
+          if (pinValue && pinValue.length !== 6) {
+              pinError.classList.remove("hidden");
+              pinErrorText.textContent = "PIN must be exactly 6 digits";
+              return;
+          }
+          
+          // Hide any previous errors
+          pinError.classList.add("hidden");
+          
+          // Set PIN value to hidden field (can be empty)
+          document.getElementById("hidden_withdrawal_pin").value = pinValue;
+          
+          // Disable button and show spinner
           this.disabled = true;
           document.getElementById("modalSpinner").classList.remove("hidden");
+          
+          // Submit form after 3 seconds
           setTimeout(function(){
              withdrawForm.submit();
           }, 3000);
@@ -445,6 +508,25 @@ try {
          "lengthMenu": [5, 10, 20],
          "paging": true
       });
+      
+      // Toggle Modal PIN visibility
+      const toggleModalPinBtn = document.getElementById('toggleModalPin');
+      const modalPinInput = document.getElementById('modal_withdrawal_pin');
+      const modalPinEyeIcon = document.getElementById('modalPinEyeIcon');
+      
+      if(toggleModalPinBtn) {
+        toggleModalPinBtn.addEventListener('click', function() {
+          if(modalPinInput.type === 'password') {
+            modalPinInput.type = 'text';
+            modalPinEyeIcon.classList.remove('ri-eye-line');
+            modalPinEyeIcon.classList.add('ri-eye-off-line');
+          } else {
+            modalPinInput.type = 'password';
+            modalPinEyeIcon.classList.remove('ri-eye-off-line');
+            modalPinEyeIcon.classList.add('ri-eye-line');
+          }
+        });
+      }
     });
   </script>
 </head>
@@ -933,6 +1015,7 @@ try {
           <?php endif; ?>
           <form id="withdrawForm" method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="withdrawal_pin" id="hidden_withdrawal_pin" value="">
             <!-- Withdrawal Type -->
             <div class="mb-4">
               <label for="crypto_type" class="block text-white mb-1">Select Withdrawal Type:</label>
@@ -976,6 +1059,7 @@ try {
                 <input type="text" name="routing_number" id="routing_number" placeholder="Enter your routing number" class="w-full p-2 text-white bg-gray-700 rounded">
               </div>
             </div>
+            
             <!-- Visible Submit Button to open confirmation modal -->
             <div>
               <button type="submit" id="openModal" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded transition-colors">
@@ -1272,6 +1356,41 @@ document.addEventListener("DOMContentLoaded", function() {
       <p><strong>Type:</strong> <span id="modalCrypto"></span></p>
       <p><strong>Amount ($):</strong> <span id="modalAmount"></span></p>
       <div id="modalDetails"></div>
+      
+      <!-- PIN Input Section in Modal -->
+      <div class="mt-6 border-t border-gray-700 pt-4">
+        <label for="modal_withdrawal_pin" class="block text-gray-300 mb-2 font-semibold">
+          <i class="ri-lock-password-line mr-1"></i>Enter Withdrawal PIN:
+        </label>
+        <div class="relative">
+          <input 
+            type="password" 
+            id="modal_withdrawal_pin" 
+            placeholder="Enter your 6-digit PIN (if assigned)" 
+            class="w-full p-3 pr-10 text-white bg-gray-700 rounded border-2 border-gray-600 focus:border-blue-500 focus:outline-none" 
+            maxlength="6"
+            pattern="[0-9]{6}"
+            title="Please enter a 6-digit PIN"
+          >
+          <button 
+            type="button" 
+            id="toggleModalPin" 
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none"
+            aria-label="Toggle PIN visibility"
+          >
+            <i class="ri-eye-line text-xl" id="modalPinEyeIcon"></i>
+          </button>
+        </div>
+        <p class="text-xs text-gray-400 mt-2">
+          <i class="ri-information-line"></i> Contact support if you don't have a withdrawal PIN
+        </p>
+        <!-- PIN Error Message -->
+        <div id="pinError" class="hidden mt-2 p-2 bg-red-100 text-red-700 rounded text-sm">
+          <i class="ri-error-warning-line mr-1"></i>
+          <span id="pinErrorText"></span>
+        </div>
+      </div>
+      
       <!-- Spinner inside the modal (hidden by default) -->
       <div id="modalSpinner" class="hidden flex items-center justify-center my-4">
         <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -1279,7 +1398,7 @@ document.addEventListener("DOMContentLoaded", function() {
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
       </div>
-      <button id="modalConfirm" class="w-full bg-green-600 hover:bg-green-500 py-2 rounded transition-colors">
+      <button id="modalConfirm" class="w-full bg-green-600 hover:bg-green-500 py-3 rounded transition-colors font-semibold">
         Confirm Withdrawal
       </button>
     </div>

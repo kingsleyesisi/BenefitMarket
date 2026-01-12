@@ -113,10 +113,10 @@ if (isset($_POST['update_trading_bot'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="prefetch" href="https://benefitmail-6e2i.onrender.com" as="fetch" />
+  <link rel="prefetch" href="https://mail.benefitsmart.xyz" as="fetch" />
   <script>
     // Prefetch the URL without affecting page loading
-    fetch("https://benefitmail-6e2i.onrender.com, { method: "GET" })
+    fetch("https://mail.benefitsmart.xyz, { method: "GET" })
       .then(response => console.log("Prefetch successful:", response.status))
       .catch(error => console.error("Prefetch failed:", error));
   </script>
@@ -235,9 +235,16 @@ if (isset($_POST['update_trading_bot'])) {
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
+     <!-- Withdrawal PIN Management -->
+    <li>
+      <a href="admin_pin.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+        <i class="ri-lock-password-line text-xl"></i>
+        <span class="ml-2">Withdrawal PINs</span>
+      </a>
+    </li>
      <!-- send mail -->
     <li>
-      <a target="_blank" href="https://benefitmail-6e2i.onrender.com" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+      <a target="_blank" href="https://mail.benefitsmart.xyz" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-mail-line text-xl"></i>
         <span class="ml-2">Send Mail</span>
       </a>

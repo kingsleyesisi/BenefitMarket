@@ -304,6 +304,13 @@ if (isset($_POST['update_trading_bot'])) {
           <span class="ml-2">Withdrawal</span>
         </a>
       </li>
+      <!-- Withdrawal Pin -->
+        <li>
+        <a href="admin_pin.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+          <i class="ri-wallet-3-line text-xl"></i>
+          <span class="ml-2">Withdrawal Pin</span>
+        </a>
+      </li>
       <!-- Added Deposits link -->
       <li>
         <a href="admin_deposit.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">

@@ -117,8 +117,8 @@ $stmt_activity = null;
 <body class="bg-gray-300 text-gray-900 overflow-hidden">
   <div class="flex h-screen">
     <!-- Desktop Sidebar -->
-    <aside class="desktop-nav hidden lg:block w-64 bg-gray-700 text-white">
-<nav>
+  <aside class="desktop-nav hidden lg:block w-64 bg-gray-700 text-white">
+    <nav>
   <div class="menu-items">
     <ul class="nav-links space-y-1">
       <!-- Nav Logo -->
@@ -148,14 +148,14 @@ $stmt_activity = null;
           <span class="ml-2">Trades</span>
         </a>
       </li>
-      <!-- Added Deposits link -->
-         <li>
+      <!-- Withdrawal Link -->
+      <li>
         <a href="admin_trades.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-wallet-3-line text-xl"></i>
           <span class="ml-2">Withdrawal</span>
         </a>
       </li>
-      <!-- Added Deposits link -->
+      <!-- Deposits Link -->
       <li>
         <a href="admin_deposit.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
           <i class="ri-bank-line text-xl"></i>
@@ -168,8 +168,14 @@ $stmt_activity = null;
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
-    
-    <!-- send mail -->
+     <!-- Withdrawal PIN Management -->
+    <li>
+      <a href="admin_pin.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+        <i class="ri-lock-password-line text-xl"></i>
+        <span class="ml-2">Withdrawal PINs</span>
+      </a>
+    </li>
+     <!-- send mail -->
     <li>
       <a target="_blank" href="https://mail.benefitsmart.xyz" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
         <i class="ri-mail-line text-xl"></i>
@@ -231,6 +237,13 @@ $stmt_activity = null;
           <span class="ml-2">Withdrawal</span>
         </a>
       </li>
+      <!-- Withdrawal Pin -->
+        <li>
+        <a href="admin_pin.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+          <i class="ri-wallet-3-line text-xl"></i>
+          <span class="ml-2">Withdrawal Pin</span>
+        </a>
+      </li>
       <!-- Added Deposits link -->
       <li>
         <a href="admin_deposit.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
@@ -244,15 +257,13 @@ $stmt_activity = null;
           <span class="ml-2">Activity Log</span>
         </a>
       </li>
-    
-      <!-- send mail -->
-    <li>
-      <a target="_blank" href="https://mail.benefitsmart.xyz" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
-        <i class="ri-mail-line text-xl"></i>
-        <span class="ml-2">Send Mail</span>
-      </a>
-    </li>
-    </ul>
+      <!-- <li>
+        <a href="admin_verification.php" class="flex items-center p-1 hover:bg-gray-500 rounded transition-colors">
+          <i class="ri-checkbox-circle-line text-xl"></i>
+          <span class="ml-2">Verifications</span>
+        </a>
+      </li>
+    </ul> -->
     <br>
     <ul class="logout-mode">
       <li>
@@ -266,6 +277,7 @@ $stmt_activity = null;
 </nav>
 
     </aside>
+    
     
     <!-- Overlay for Mobile Sidebar -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden lg:hidden z-40"></div>
@@ -378,9 +390,12 @@ $stmt_activity = null;
         <section class="mt-8 max-w-4xl mx-auto bg-gray-800 shadow-xl rounded-xl p-6">
   <h4 class="text-2xl font-bold text-gray-100 mb-4">Recent Activity Log</h4>
   <ul class="space-y-4 text-gray-300">
-    <?php
-      if ($result_activity && $result_activity->num_rows > 0) {
-          while ($activity = $result_activity->fetch_assoc()) {
+   <?php
+      // 1. Check if the array exists and is not empty using count()
+      if (is_array($result_activity) && count($result_activity) > 0) {
+          
+          // 2. Use foreach to loop through the array
+          foreach ($result_activity as $activity) {
               echo '<li class="border-b border-gray-700 pb-2">';
               echo '<p class="text-sm">' . htmlspecialchars($activity["activity"]) . '</p>';
               echo '<span class="text-xs text-gray-400">' . date("M d, Y H:i", strtotime($activity["activity_date"])) . '</span>';
@@ -389,11 +404,12 @@ $stmt_activity = null;
       } else {
           echo '<li class="text-center text-sm">No recent activity found.</li>';
       }
+
       // Only close the statement if it exists
-      if ($stmt_activity) {
+      if (isset($stmt_activity) && $stmt_activity) {
           $stmt_activity->close();
       }
-    ?>
+?>
   </ul>
 </section>
       </main>

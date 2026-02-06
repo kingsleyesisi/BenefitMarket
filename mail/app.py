@@ -209,7 +209,7 @@ def history():
 
     # Paginate the query with proper ordering
     paginated_history = Sent_Mails.query.order_by(
-        Sent_Mails.id.desc()
+        Sent_Mails.sent_on.desc()
     ).paginate(page=page, per_page=per_page, error_out=False)
 
     data = [{
@@ -219,7 +219,8 @@ def history():
         "subject": obj.subject,
         "heading": obj.heading,
         "message": obj.message,
-        "status": obj.status
+        "status": obj.status,
+        "sent_on": obj.sent_on.strftime('%Y-%m-%d %H:%M:%S') if obj.sent_on else "N/A"
     } for obj in paginated_history.items]
 
     return jsonify({
@@ -265,7 +266,7 @@ def history_page():
 
     # Paginate the query with proper ordering
     paginated_history = Sent_Mails.query.order_by(
-        Sent_Mails.id.desc()
+        Sent_Mails.sent_on.desc()
     ).paginate(page=page, per_page=per_page, error_out=False)
 
     return render_template('history.html', history=paginated_history)

@@ -410,7 +410,7 @@
 						<span class="text-body"
 							><a href="#" class="border-bottom text-white"
 								>Copyright <i class="fas fa-copyright text-light"> </i>
-								2012 - 2025 Benefit Market Trade</a
+								2012 - 2026 Benefit Market Trade</a
 							>, All right reserved.</span
 						>
 					</div>

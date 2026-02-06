@@ -470,7 +470,7 @@ data-wow-delay="0.1s"
   <!-- Footer -->
   <footer class="bg-gray-900 text-white py-6">
     <div class="container mx-auto text-center">
-      <p>&copy; 2012 – 2025 Benefit Market Trade. All rights reserved.</p>
+      <p>&copy; 2012 – 2026 Benefit Market Trade. All rights reserved.</p>
     </div>
   </footer>
 
